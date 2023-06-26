@@ -5,7 +5,7 @@ AI-based Sui smart contract and dApp scaffolding, empowering developers to rapid
 
 AI-based Scaffold Sui is a smart contract and dApp programming assistant built on OpenAI and the AI database [Embedbase](https://embedbase.xyz/). 
 
-**Problems：**Smart contract and dApp learning have a steep learning curve, especially for self-learners, requiring a substantial investment of time and effort.
+**Problems:** Smart contract and dApp learning have a steep learning curve, especially for self-learners, requiring a substantial investment of time and effort.
 
 **Vision:** Move developers can quickly get started and master development skills, while AI can handle tedious and repetitive tasks, saving them valuable time and effort.
 
