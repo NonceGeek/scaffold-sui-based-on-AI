@@ -1,5 +1,5 @@
 module governancer::governance {
-    use sui::object::{Self, UID};
+    use sui::object::{Self, UID, ID};
     use sui::tx_context::{Self, TxContext};
     use sui::vec_set::{Self, VecSet};
     use std::string::{Self, String};
@@ -43,6 +43,21 @@ module governancer::governance {
         id: ID,
     }
 
+    struct ApproveProposal has copy, drop {
+        voter: address,
+        id: ID,
+    }
+
+    struct DenyProposal has copy, drop {
+        voter: address,
+        id: ID,
+    }
+
+    // ======== Errors =========
+    const ENotValidVoter: u64 = 0;
+    const EAlreadyVoted: u64 = 1;
+    const EOutDated: u64 = 2;
+
     fun init(ctx: &mut TxContext) {
         let sender: address = tx_context::sender(ctx);
         let admin_cap = AdminCap { id: object::new(ctx) };
@@ -70,6 +85,34 @@ module governancer::governance {
             id: object::id(&proposal),
         });
         transfer::share_object(proposal);
+    }
+
+    public entry fun approve(proposal: &mut Proposal, voters: &Voters, clk: &Clock, ctx: &TxContext) {
+        let voter: address = tx_context::sender(ctx);
+        vote_check(proposal, voters, clk, voter);
+        proposal.approve = proposal.approve + 1;
+        emit( ApproveProposal {
+            voter: voter,
+            id: object::id(proposal),
+        });
+    }
+
+    public entry fun deny(proposal: &mut Proposal, voters: &Voters, clk: &Clock, ctx: &TxContext) {
+        let voter: address = tx_context::sender(ctx);
+        vote_check(proposal, voters, clk, voter);
+        proposal.deny = proposal.deny + 1;
+        emit( DenyProposal {
+            voter: voter,
+            id: object::id(proposal),
+        });
+    }
+
+    fun vote_check(proposal: &mut Proposal, voters: &Voters, clk: &Clock, voter: address) {
+        assert!(clock::timestamp_ms(clk) < proposal.end_time, EOutDated);
+        assert!(vec_set::contains(&voters.group, &voter), ENotValidVoter);
+        assert!(!vec_set::contains(&proposal.voted, &voter), EAlreadyVoted);
+
+        vec_set::insert(&mut proposal.voted, voter);
     }
 
     // === Admin-only functionality ===
