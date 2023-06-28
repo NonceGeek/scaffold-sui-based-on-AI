@@ -53,7 +53,11 @@ Including these types of dataset now:
 
 ### 2.3 Governancer
 
-The governancer is the smart contract about the `write` to dataset, so that the dataset could be managed in     DAO way.
+The governancer is the smart contract about the `write` to dataset, so that the dataset could be managed in DAO way.
+
+See more details on:
+
+> [README.md](governancer/README.md)
 
 ![image-20230626173626688](https://p.ipic.vip/ygpd88.png)
 
