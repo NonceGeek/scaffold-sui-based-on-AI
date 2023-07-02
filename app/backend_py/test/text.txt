@@ -28,3 +28,29 @@ gpt: Sui相对于传统区块链的主要优势包括：
 4. 更好的开发者体验：Sui提供了更好的开发者体验，包括更高效的本地读操作、更简单的智能合约编写、更低的交易费用和更好的用户体验。此外，Sui的气体机制可以激励验证器优化其硬件和操作，从而提高其效率并获得奖励。
 user question: 如何快速学习  move 语言，请推荐一些网站. waiting...
 gpt: 您可以参考 [Move 官方文档](https://developers.diem.com/docs/move/overview) 或者 [Move 教程](https://github.com/move-language/move/tree/main/language/documentation/tutorial) 进行学习。另外，您也可以加入 [Move 官方社区](https://community.diem.com/c/move/13) 与其他开发者交流学习。
+user question: 如何在 mac 电脑上通过命令行安装 sui. waiting...
+gpt: 您可以通过以下命令在Mac电脑上安装Sui：
+
+1. 首先安装Rust和Cargo，可以使用以下命令：
+
+```shell
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+2. 安装CMake，可以使用以下命令：
+
+```shell
+brew install cmake
+```
+
+3. 安装Sui二进制文件，可以使用以下命令：
+
+```shell
+cargo install --locked --git https://github.com/MystenLabs/sui.git --branch devnet sui
+```
+
+安装过程可能需要一些时间，请耐心等待。如果遇到错误，请确保安装了所有先决条件的最新版本，然后再次尝试命令。安装完成后，您可以在终端中输入`sui`命令来验证安装是否成功。
+user question: sui 比起其他区块链的优势是什么. waiting...
+gpt: Sui相对于传统区块链的主要优势包括高性能、高可扩展性、故障下的高性能、安全性、高效的本地读操作和更简单的开发者体验。Sui通过放弃对许多交易的共识来实现高性能，可以大规模并行执行许多交易，从而降低延迟并允许验证器利用所有CPU核心。Sui还可以利用更多的机器来提高性能。Sui可以横向扩展以满足应用程序的需求，网络容量随着Sui验证器处理能力的增加而增长，这与其他具有严格瓶颈的区块链形成鲜明对比。Sui还具有故障下的高性能，采用无领导协议处理简单交易，对于涉及共享对象的交易，Sui采用最先进的共识协议，不需要视图更改子协议，因此只会略微降低性能。Sui不会对网络进行强同步假设，这意味着Sui在不良网络条件（甚至是过度恶劣的条件）、网络分裂/分区或针对验证器的强大DoS攻击下仍然保持其安全性质。Sui还提供了高效的本地读操作和更简单的开发者体验。最后，Sui的燃气机制可以激励验证器优化其硬件和运营，这样他们就能够承担更低的燃气价格并获得股份奖励提升。
+user question: 如何快速学习  move 语言，请推荐一些网站. waiting...
+gpt: 您可以参考 [Move 官方文档](https://developers.diem.com/docs/move/introduction-to-move) 进行学习，也可以参考 [Move Tutorial](https://github.com/move-language/move/tree/main/language/documentation/tutorial) 进行实践操作。另外，您也可以加入 Move 社区的 [Discord](https://discord.gg/6yYpTtp) 进行交流学习。
