@@ -1,29 +1,29 @@
 
-<a name="0x2_hash"></a>
+<a name="0x1_hash"></a>
 
-# Module `0x2::hash`
+# Module `0x1::hash`
 
-Module which defines hash functions. Note that Sha-256 and Sha3-256 is available in the std::hash module in the
-standard library.
+Module which defines SHA hashes for byte vectors.
+
+The functions in this module are natively declared both in the Move runtime
+as in the Move prover's prelude.
 
 
--  [Function `blake2b256`](#0x2_hash_blake2b256)
--  [Function `keccak256`](#0x2_hash_keccak256)
+-  [Function `sha2_256`](#0x1_hash_sha2_256)
+-  [Function `sha3_256`](#0x1_hash_sha3_256)
 
 
 <pre><code></code></pre>
 
 
 
-<a name="0x2_hash_blake2b256"></a>
+<a name="0x1_hash_sha2_256"></a>
 
-## Function `blake2b256`
-
-@param data: Arbitrary binary data to hash
-Hash the input bytes using Blake2b-256 and returns 32 bytes.
+## Function `sha2_256`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="hash.md#0x2_hash_blake2b256">blake2b256</a>(data: &<a href="">vector</a>&lt;u8&gt;): <a href="">vector</a>&lt;u8&gt;
+
+<pre><code><b>public</b> <b>fun</b> <a href="hash.md#0x1_hash_sha2_256">sha2_256</a>(data: <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -32,35 +32,20 @@ Hash the input bytes using Blake2b-256 and returns 32 bytes.
 <summary>Implementation</summary>
 
 
-<pre><code><b>native</b> <b>public</b> <b>fun</b> <a href="hash.md#0x2_hash_blake2b256">blake2b256</a>(data: &<a href="">vector</a>&lt;u8&gt;): <a href="">vector</a>&lt;u8&gt;;
+<pre><code><b>native</b> <b>public</b> <b>fun</b> <a href="hash.md#0x1_hash_sha2_256">sha2_256</a>(data: <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;;
 </code></pre>
 
 
 
 </details>
 
-<details>
-<summary>Specification</summary>
+<a name="0x1_hash_sha3_256"></a>
+
+## Function `sha3_256`
 
 
 
-<pre><code><b>pragma</b> opaque;
-<b>aborts_if</b> [abstract] <b>true</b>;
-</code></pre>
-
-
-
-</details>
-
-<a name="0x2_hash_keccak256"></a>
-
-## Function `keccak256`
-
-@param data: Arbitrary binary data to hash
-Hash the input bytes using keccak256 and returns 32 bytes.
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="hash.md#0x2_hash_keccak256">keccak256</a>(data: &<a href="">vector</a>&lt;u8&gt;): <a href="">vector</a>&lt;u8&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="hash.md#0x1_hash_sha3_256">sha3_256</a>(data: <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -69,22 +54,12 @@ Hash the input bytes using keccak256 and returns 32 bytes.
 <summary>Implementation</summary>
 
 
-<pre><code><b>native</b> <b>public</b> <b>fun</b> <a href="hash.md#0x2_hash_keccak256">keccak256</a>(data: &<a href="">vector</a>&lt;u8&gt;): <a href="">vector</a>&lt;u8&gt;;
+<pre><code><b>native</b> <b>public</b> <b>fun</b> <a href="hash.md#0x1_hash_sha3_256">sha3_256</a>(data: <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="vector.md#0x1_vector">vector</a>&lt;u8&gt;;
 </code></pre>
 
 
 
 </details>
 
-<details>
-<summary>Specification</summary>
 
-
-
-<pre><code><b>pragma</b> opaque;
-<b>aborts_if</b> [abstract] <b>true</b>;
-</code></pre>
-
-
-
-</details>
+[//]: # ("File containing references which can be used from documentation")

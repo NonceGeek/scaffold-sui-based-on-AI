@@ -1,136 +1,69 @@
-### Streams Working Group
+---
+title: "Governance"
+slug: "governance"
+---
+import ThemedImage from '@theme/ThemedImage';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-The Node.js Streams is jointly governed by a Working Group
-(WG)
-that is responsible for high-level guidance of the project.
+# Governance
 
-The WG has final authority over this project including:
+The Aptos on-chain governance is a process by which the Aptos community members can create and vote on proposals that minimize the cost of blockchain upgrades. The following describes the scope of these proposals for the Aptos on-chain governance:
 
-* Technical direction
-* Project governance and process (including this policy)
-* Contribution policy
-* GitHub repository hosting
-* Conduct guidelines
-* Maintaining the list of additional Collaborators
+- Changes to the blockchain parameters, for example, the epoch duration, and the minimum required and maximum allowed validator stake.
+- Changes to the core blockchain code. 
+- Upgrades to the Aptos Framework modules for fixing bugs or for adding or enhancing the Aptos blockchain functionality.
+- Deploying new framework modules (at the address `0x1` - `0xa`).
 
-For the current list of WG members, see the project
-[README.md](./README.md#current-project-team-members).
+## How a proposal becomes ready to be resolved
 
-### Collaborators
+See below for a summary description of how a proposal comes to exist and when it becomes ready to be resolved:
 
-The readable-stream GitHub repository is
-maintained by the WG and additional Collaborators who are added by the
-WG on an ongoing basis.
+<ThemedImage
+alt="Proposal voting flow"
+sources={{
+    light: useBaseUrl('/img/docs/voting-resolution-flow.svg'),
+    dark: useBaseUrl('/img/docs/voting-resolution-flow-dark.svg'),
+  }}
+/>
 
-Individuals making significant and valuable contributions are made
-Collaborators and given commit-access to the project. These
-individuals are identified by the WG and their addition as
-Collaborators is discussed during the WG meeting.
+- The  Aptos community can suggest an Aptos Improvement Proposal (AIP) in the [Aptos Foundation AIP GitHub](https://github.com/aptos-foundation/AIPs).
+- When appropriate, an on-chain proposal can be created for the AIP via the `aptos_governance` module. 
+- Voters can then vote on this proposal on-chain via the `aptos_governance` module. If there is sufficient support for a proposal, then it can be resolved.
+- Governance requires a minimal number of votes to be cast by an expiration threshold. However, if sufficient votes, more than 50% of the total supply, are accumulated prior to that threshold, the proposal can be executed **without waiting for the full voting period**.
 
-_Note:_ If you make a significant contribution and are not considered
-for commit-access log an issue or contact a WG member directly and it
-will be brought up in the next WG meeting.
+## Who can propose
 
-Modifications of the contents of the readable-stream repository are
-made on
-a collaborative basis. Anybody with a GitHub account may propose a
-modification via pull request and it will be considered by the project
-Collaborators. All pull requests must be reviewed and accepted by a
-Collaborator with sufficient expertise who is able to take full
-responsibility for the change. In the case of pull requests proposed
-by an existing Collaborator, an additional Collaborator is required
-for sign-off. Consensus should be sought if additional Collaborators
-participate and there is disagreement around a particular
-modification. See _Consensus Seeking Process_ below for further detail
-on the consensus model used for governance.
+- To either propose or vote, you must stake, but you are not required to run a validator node. However, we recommend that you run validator with a stake as part of the validator set to gain rewards from your stake.
+- To create a proposal, the proposer's backing stake pool must have the minimum required proposer stake. The proposer's stake must be locked up for at least as long as the proposal's voting period. This is to avoid potential spammy proposals. 
+- Proposers can create a proposal by calling [`aptos_governance::create_proposal`](https://github.com/aptos-labs/aptos-core/blob/27a255ebc662817944435349afc4ec33ea317e64/aptos-move/framework/aptos-framework/sources/aptos_governance.move#L183).
 
-Collaborators may opt to elevate significant or controversial
-modifications, or modifications that have not found consensus to the
-WG for discussion by assigning the ***WG-agenda*** tag to a pull
-request or issue. The WG should serve as the final arbiter where
-required.
+## Who can vote
 
-For the current list of Collaborators, see the project
-[README.md](./README.md#members).
+- To vote, you must stake, though you are not required to run a validator node. Your voting power is derived from the backing stake pool. 
+- Voting power is calculated based on the current epoch's active stake of the proposer or voter's backing stake pool. In addition, the stake pool's lockup must be at least as long as the proposal's duration.
+- Verify proposals before voting. Ensure each proposal is linked to its source code, and if there is a corresponding AIP, the AIP is in the title and description.
 
-### WG Membership
+:::tip
+Each stake pool can be used to vote on each proposal exactly only one time.
+:::
 
-WG seats are not time-limited.  There is no fixed size of the WG.
-However, the expected target is between 6 and 12, to ensure adequate
-coverage of important areas of expertise, balanced with the ability to
-make decisions efficiently.
+## Who can resolve
+- Anyone can resolve an on-chain proposal that has passed voting requirements by using the `aptos governance execute-proposal` command from Aptos CLI. 
 
-There is no specific set of requirements or qualifications for WG
-membership beyond these rules.
+## Aptos Improvement Proposals (AIPs)
 
-The WG may add additional members to the WG by unanimous consensus.
+AIPs are proposals created by the Aptos community or the Aptos Labs team to improve the operations and development of the Aptos chain. 
+To submit an AIP, create an issue in [`Aptos Foundation's GitHub repository`](https://github.com/aptos-foundation/AIPs/issues) using the [template](https://github.com/aptos-foundation/AIPs/blob/main/TEMPLATE.md)
+To keep up with new AIPs, check the `#aip-announcements` channel on [Aptos' discord channel](https://discord.gg/aptosnetwork). 
+To view and vote on on-chain proposals, go to [`Aptos' Governance website`](https://governance.aptosfoundation.org/). 
 
-A WG member may be removed from the WG by voluntary resignation, or by
-unanimous consensus of all other WG members.
+## Technical Implementation of Aptos Governance
+The majority of the governance logic is in [`aptos_governance.move and voting.move`](https://github.com/aptos-labs/aptos-core/blob/main/aptos-move/framework/aptos-framework/sources). 
+The `aptos_governance` module outlines how users can interact with Aptos Governance. It's the external-facing module of the Aptos on-chain governance process and contains logic and checks that are specific to Aptos Governance.
+The `voting` module is the Aptos governance standard that can be used by DAOs on the Aptos chain to create their own on-chain governance process.
 
-Changes to WG membership should be posted in the agenda, and may be
-suggested as any other agenda item (see "WG Meetings" below).
-
-If an addition or removal is proposed during a meeting, and the full
-WG is not in attendance to participate, then the addition or removal
-is added to the agenda for the subsequent meeting.  This is to ensure
-that all members are given the opportunity to participate in all
-membership decisions.  If a WG member is unable to attend a meeting
-where a planned membership decision is being made, then their consent
-is assumed.
-
-No more than 1/3 of the WG members may be affiliated with the same
-employer.  If removal or resignation of a WG member, or a change of
-employment by a WG member, creates a situation where more than 1/3 of
-the WG membership shares an employer, then the situation must be
-immediately remedied by the resignation or removal of one or more WG
-members affiliated with the over-represented employer(s).
-
-### WG Meetings
-
-The WG meets occasionally on a Google Hangout On Air. A designated moderator
-approved by the WG runs the meeting. Each meeting should be
-published to YouTube.
-
-Items are added to the WG agenda that are considered contentious or
-are modifications of governance, contribution policy, WG membership,
-or release process.
-
-The intention of the agenda is not to approve or review all patches;
-that should happen continuously on GitHub and be handled by the larger
-group of Collaborators.
-
-Any community member or contributor can ask that something be added to
-the next meeting's agenda by logging a GitHub Issue. Any Collaborator,
-WG member or the moderator can add the item to the agenda by adding
-the ***WG-agenda*** tag to the issue.
-
-Prior to each WG meeting the moderator will share the Agenda with
-members of the WG. WG members can add any items they like to the
-agenda at the beginning of each meeting. The moderator and the WG
-cannot veto or remove items.
-
-The WG may invite persons or representatives from certain projects to
-participate in a non-voting capacity.
-
-The moderator is responsible for summarizing the discussion of each
-agenda item and sends it as a pull request after the meeting.
-
-### Consensus Seeking Process
-
-The WG follows a
-[Consensus
-Seeking](http://en.wikipedia.org/wiki/Consensus-seeking_decision-making)
-decision-making model.
-
-When an agenda item has appeared to reach a consensus the moderator
-will ask "Does anyone object?" as a final call for dissent from the
-consensus.
-
-If an agenda item cannot reach a consensus a WG member can call for
-either a closing vote or a vote to table the issue to the next
-meeting. The call for a vote must be seconded by a majority of the WG
-or else the discussion will continue. Simple majority wins.
-
-Note that changes to WG membership require a majority consensus.  See
-"WG Membership" above.
+If you are thinking about creating a DAO on Aptos, you can refer to `aptos_governance`'s usage of the `voting` module as an example. 
+In `aptos_governance`, we rely on the `voting` module to create, vote on, and resolve a proposal.
+- `aptos_governance::create_proposal` calls `voting::create_proposal` to create a proposal on-chain, when an off-chain AIP acquires sufficient importance. 
+- `aptos_governance::vote` calls `voting::vote` to record the vote on a proposal on-chain; 
+- `aptos_governance::resolve` can be called by anyone. It calls `voting::resolve` to resolve the proposal on-chain. 

@@ -1,29 +1,46 @@
-# Summary
+# The Move Programming Language
 
-- [How to use this book](./README.md)
-- [Sui Basics](./basics/README.md)
-    - [Move.toml](./basics/move-toml.md)
-    - [Init Function](./basics/init-function.md)
-    - [Entry Functions](./basics/entry-functions.md)
-    - [Strings](./basics/strings.md)
-    - [Shared Object](./basics/shared-object.md)
-    - [Transfer](./basics/transfer.md)
-    - [Custom transfer](./basics/custom-transfer.md)
-    - [Events](./basics/events.md)
-    - [One Time Witness](./basics/one-time-witness.md)
-    - [Publisher](./basics/publisher.md)
-    - [Object Display](./basics/display.md)
-    <!-- - [Owned Objects](./basics/owned-objects.md) -->
-    <!-- - [Bag](./basics/bag.md) -->
-    <!-- - [Map - Indexed Collection](./basics/vec-map.md) -->
-- [Patterns](./patterns/README.md)
-    - [Capability](./patterns/capability.md)
-    - [Witness](./patterns/witness.md)
-    - [Transferable Witness](./patterns/transferable-witness.md)
-    - [Hot Potato](./patterns/hot-potato.md)
-    - [ID Pointer](./patterns/id-pointer.md)
-- [Samples](./samples/README.md)
-    - [Make an NFT](./samples/nft.md)
-    - [Create a Coin (ERC20)](./samples/coin.md)
-- [Additional Resources](./LINKS.md)
-    <!-- - [Make a Character](./samples/character.md) -->
+[Introduction](introduction.md)
+
+## Getting Started
+
+- [Modules and Scripts](modules-and-scripts.md)
+- [Move Tutorial](creating-coins.md)
+
+## Primitive Types
+
+- [Integers](integers.md)
+- [Bool](bool.md)
+- [Address](address.md)
+- [Vector](vector.md)
+- [Signer](signer.md)
+- [References](references.md)
+- [Tuples and Unit](tuples.md)
+
+## Basic Concepts
+
+- [Local Variables and Scopes](variables.md)
+- [Equality](equality.md)
+- [Abort and Assert](abort-and-assert.md)
+- [Conditionals](conditionals.md)
+- [While and Loop](loops.md)
+- [Functions](functions.md)
+- [Structs and Resources](structs-and-resources.md)
+- [Constants](constants.md)
+- [Generics](generics.md)
+- [Type Abilities](abilities.md)
+- [Uses and Aliases](uses.md)
+- [Friends](friends.md)
+- [Packages](packages.md)
+- [Package Upgrades](package-upgrades.md)
+- [Unit Tests](unit-testing.md)
+
+## Global Storage
+
+- [Global Storage Structure](global-storage-structure.md)
+- [Global Storage Operators](global-storage-operators.md)
+
+## Reference
+
+- [Standard Library](standard-library.md)
+- [Coding Conventions](coding-conventions.md)

@@ -1,175 +1,139 @@
-# Introduction
+# Aptos Core Bug Bounty
 
-We appreciate your participation in keeping the Sui network secure. This doc includes details on Sui's Bug Bounty Program, including information on how to report an issue, what bug bounties are available, and who is eligible for bounties.
+## Reporting a Security Concern
 
-The program is run in partnership with [Immunefi](https://immunefi.com/). More information is available on [their site](https://immunefi.com/bounty/sui/).
+**DO NOT CREATE AN ISSUE** to report a security problem.
 
-If you have any questions or concerns, contact [support@immunefi.com](mailto:support@immunefi.com).
+Go to https://github.com/aptos-labs/aptos-core/security/advisories and open a vulnerability report. Send an email to [security@aptosfoundation.org](mailto:security@aptosfoundation.org) and provide your GitHub username. The team will traige the issue from there.
 
-# Reporting and response process
+For security reasons, DO NOT include attachments or provide detail sufficient for exploitation regarding the security issue in this email. Instead, wait for the advisory to be created, and **provide any sensitive details in the private GitHub advisory**.
 
-All reports must be sent using Immunefi’s [secure dashboard](https://bugs.immunefi.com/). **DO NOT report a security issue using GitHub, email, or Discord.**
+If you haven't done so already, please **enable two-factor authentation** in your GitHub account.
 
-You should receive an acknowledgement of your report within 48 hours for critical vulnerabilities and 96 hours for all other vulnerabilities.
+Send the email from an email domain that is less likely to get flagged for spam by gmail.
 
-If you do not get a response, contact support@immunefi.com. DO NOT include attachments or provide detail regarding the security issue.
+This is an actively monitored account, the team will quickly respond.
 
-If you are reporting something outside the scope of Immunefi's Bug Bounty Program for Sui, contact [security@sui.io](mailto:security@sui.io)
+If you do not receive a response within 24 hours, please directly followup with the team in [Discord](https://discord.gg/aptoslabs) by reaching out to anyone with the role “Aptos Labs”.
 
-# Bug bounties
+As above, please DO NOT include attachments or provide detail regarding the security issue in this email.
 
-The Sui Foundation offers bug bounties for security issues found at different levels of severity. If a vulnerability is found, follow the process detailed above to report the issue. All bug reports must come with a runnable [testnet](https://github.com/MystenLabs/sui/tree/testnet) Proof-of-Concept with an end-effect impacting an asset-in-scope in order to be considered for a reward. You do not need to have a fix in order to submit a report or receive a bounty. By your participation in Sui Foundation’s bug bounty program you agree to be bound and abide by our [terms of service](https://sui.io/terms) and [privacy policy](https://sui.io/policy) .
+## Incident Response Process
 
-## Assets in scope
+1. Establish a new draft security advisory
+    1. In response to an email to [security@aptosfoundation.org](mailto:security@aptosfoundation.org), a member of the Aptos Labs will create a new draft security advisory for the incident at [https://github.com/aptos-labs/aptos-core/security/policy](https://github.com/aptos-labs/aptos-core/security/policy).
+    2. Add the reporter's GitHub account and relevant individuals to the draft security advisory.
+    3. Respond to the reporter by email, sharing a link to the draft security advisory.
+2. Responder should add appropriate content to the draft security advisory. To be eligible for a bug bounty, this includes:
+    1. A clear description of the issue and the impacted areas.
+    2. The code and the methodology to reproduce the underlying issue.
+    3. Discussion of potential remediations.
+3. Triage
+    1. Validate the issue.
+    2. Determine the criticality of the issue.
+    3. If this is a bug and not a security issue, recommend to the submitter to create an issue.
+4. Resolve by building new docker containers and binaries that contain the fix and pushing to affected entities.
 
-Impacts only apply to assets in active use by Sui.
+## Bug Bounties
 
-### Blockchain/DLT
+Aptos Foundation offers bounties for security reports. Reports will be validated against the GitHub repository branch labeled "mainnet" and no others. Moreover, any code within mainnet but not in an actively deployed network or in a position to be deployed in such an environment, such as experimental or actively developed code, are out of scope for the bug bounty program. In addition, if a bug discovered in mainnet is already fixed in main, it is out of scope. Production environments include the Aptos testnet and mainnet.
 
--   Sui Network Consensus
--   Sui Network
--   Sui Move
+The scope includes code within
 
-### Smart Contract
+- [Aptos Core — main branch](https://github.com/aptos-labs/aptos-core/tree/main)
+- [Move — Aptos branch](https://github.com/move-language/move/tree/aptos)
 
--   Sui Framework
+Aptos Foundation considers the following levels of severity:
 
-## Impacts in Scope
+### Critical — Up to $1,000,000 USD in APT tokens (locked for 12 months)
 
+- Direct loss of funds to users or protocols with minimal preconditions, such as, Move type confusion.
+- Vulnerabilities in the Proof of Stake system which directly compromise consensus.
+- Unintended permanent chain split requiring hard fork (network partition requiring hardfork).
+- Permanent freezing, burning, or modification of funds (fix requires hardfork).
 
-The following impacts are accepted within this bug bounty program--refer to [Sui's Immunefi Bug Bounty Program Page](https://immunefi.com/bounty/sui/) for an official and up-to-date listing.
-All other impacts are considered out-of-scope and ineligible for payout.
+### High — Up to $100,000 USD in APT tokens (locked for 12 months)
 
+- Loss of funds with some pre-conditions, such as, halting the network.
+- Interrupting blockchain progress or halting the network.
 
+### Medium — Up to $25,000 USD in APT tokens (locked for 12 months)
 
-CRITICAL [$100,000-$500,000 USD]
-1. Exceeding the maximum supply of 10 billion SUI + allowing the attacker to claim the excess funds
-2. Loss of Funds which includes
-    * Unauthorized creation, copying, transfer or destruction of objects via bypass of or exploit of bugs in the Move or Sui bytecode verifier
-    * Address Collision – creating two distinct authentication schemes that hash to the same SUI address in a manner that lead to significant loss of funds
-    * Object ID collision—creating two distinct objects with the same ID in a manner that leads to significant loss of funds.
-    * Unauthorized use of an owned object as a transaction input, resulting in significant loss of funds due to the inability to verify ownership and permission to transfer
-    * Dynamically loading an object that is not directly or transitively owned by the transaction sender, in a manner that leads to significant loss of funds
-    * Unauthorized upgrade of a Move package, in a manner that leads to significant loss of funds
-    * Stealing staking rewards that belong to another user, or claiming more than a user’s share of staking rewards, not including rounding errors that result in a minor, financially insignificant discrepancy
-3. Violating BFT assumptions, acquiring voting power vastly disproportionate to stake, or any other issue that can meaningfully compromise the integrity of the blockchain’s proof of stake governance does not include the following: 
-    * Voting power that is redistributed because one or more other validators already has max voting power
-    * Rounding errors that result in minor voting power discrepancies
-4. Unintended permanent chain split requiring hard fork (network partition requiring hard fork)
-5. Network not being able to confirm new transactions (total network shutdown) requiring a hard fork to resolve
-6. Arbitrary, non-Move remote code execution on unmodified validator software
+- Denial of service issues which compromise the integrity or availability of the chain.
+- Loss of funds with many preconditions.
+- Ability to crash a production node with some pre-conditions.
 
+## Payment of Bug Bounties
 
-HIGH [$50,000 USD]
+- Bounties are currently awarded on a rolling/weekly basis and paid out within 30 days upon receipt of successful KYC and payment contract.
+- The APT/USD conversion rate used for payments is the market price of APT (denominated in USD) at 11:59 PM PST the day that both KYC and the payment contract are completed.
+- The reference for this price is the Closing Price given by Coingecko.com on that date given here: [https://www.coingecko.com/en/coins/aptos/historical_data#panel](https://www.coingecko.com/en/coins/aptos/historical_data#panel)
+- Bug bounties that are paid out in APT are paid to locked to the account provided by the reporter with a lockup expiring 12 months from the date of the delivery of APT.
+- Multiple vulnerabilities of similar root cause will be paid out as one report.
 
-1. Temporary Total Network Shutdown (greater than 10 minutes of network downtime)
+## Duplicate Reports
 
-MEDIUM [$10,000 USD]
+Compensation for duplicate reports will be split among reporters with first to report taking priority using the following equation:
 
-1. A bug that results in unintended and harmful smart contract behavior with no concrete funds at direct risk
-2. Unintended, permanent burning of SUI under the max cap.
-3. Shutdown of greater than or equal to 30% of network processing nodes without brute force actions, but does not shut down the network
+```
+R: total reports
+ri: report priority
+bi: bounty share
 
+bi = 2 ^ (R - ri) / ((2^R) - 1)
+```
 
-LOW [$5,000 USD]
+Where report priority derives from the set of integers beginning at 1, where the first reporter has `ri = 1`, the second reporter `ri = 2`, and so forth.
 
-1. Sending a transaction that triggers invariant violation error code in unmodified validator software
-2. A remote call that crashes a Sui fullnode
+Note, reports that come in after the issue has been fully triaged and resolved will not be eligible for splitting.
 
-# Audit Discoveries and Known Issues
-Bug reports covering previously-discovered bugs are not eligible for any reward through the bug bounty program. If a bug report covers a known issue, it may be rejected together with proof of the issue being known before escalation of the bug report via Immunefi. 
+## KYC Requirements
 
-**Previous audits and known issues can be found at:**
-| Known Issue  | Related Impact-in-Scope |
-| ------------- | ------------- |
-| In our staking contract, we have the concept of pool tokens and keep track of exchange rates between pool tokens and SUI tokens of all epochs, which increase as more rewards are added to the staking pools. When a user withdraws their stake, we retrieve from that record both the exchange rate at staking time and the current exchange rate (at withdrawing time), and calculate the rewards to be paid out based on the difference in exchange rates. While doing this calculation, we do conversions both ways: pool tokens -> SUI and SUI -> pool tokens. Rounding may happen along the way due to integer division. The exchange rate between the two tokens should stay roughly the same since we will be burning a proportional amount of pool tokens as SUI is withdrawn. However, in the extreme case where a user is unstaking 1 MIST, this rounding error may cause ZERO pool tokens to be burnt, causing the pool token to effectively depreciate. If an attacker has a lot of 1 MIST stakes, they can withdraw them one by one, causing the pool token exchange rate to drop and other takers to “lose” their staking rewards. I put quotation marks around “lose” because the attacker themselves won’t get any of that rewards so this attacker doesn’t actually make economic sense. Rather the rewards stay in the rewards pool and will become dust. This issue is mitigated by enforcing a minimum staking amount of 1 SUI or 10^9 MIST in this PR: https://github.com/MystenLabs/sui/pull/9961 | Critical - Any other issue leading to theft or loss of valuable objects, with severity depending on the consequences of the issue and the preconditions for exploiting it  |
-| Excessive storage rebate on 0x5 object right after epoch change:
-Each on-chain object is associated with a storage rebate, which would be refunded to the owner if it ever gets deleted. Epoch change transactions are special in that they are system transactions without a sender, hence any excessive storage rebate generated in that transaction is kept in the 0x5 object. This means that the first person touching the 0x5 object in each epoch may be able to obtain those excessive rebate by simply touching this object (e.g. a failed staking request). We will look into a way to evenly distribute those excessive rebates such that is does not lead to any undesired behaviors.  | |
-| Crash Validator by providing a gas price of u64:max | Network not being able to confirm new transactions (total network shutdown) |
+This bug bounty program is only open to individuals [outside the OFAC restricted countries](https://home.treasury.gov/policy-issues/financial-sanctions/sanctions-programs-and-country-information). Bug bounty hunters will be required to provide evidence that they are not a resident or citizen of these countries to be eligible for a reward. If the individual is a US person, tax information will be required, such as a W-9, in order to properly issue a 1099. Aptos requires KYC to be done for all bug bounty hunters submitting a report and wanting a reward. Form W-9 or Form W-8 is required for tax purposes. All bug bounty hunters are required to use Persona for KYC, links will be provided upon resolution of the issue. The collection of this information will be done by the Aptos Foundation.
 
+If an impact can be caused to any other asset managed by Aptos that isn’t on this table but for which the impact is not inscope, you are encouraged to submit it for consideration by the project.
 
-# Payment of bounties
+## Out of Scope
 
--   Bounties are awarded on a rolling basis and eligibility to receive such awards shall be determined by Sui Foundation in its sole discretion.
--   Once a bug report is accepted as legitimate, assuming KYC has been completed successfully, bounties will be paid out on or about a time that is 14 days thereafter or less.
--   Bounties are denominated in USD but will be paid in USDC; provided if a bounty award winner is not eligible to receive USDC in compliance with applicable law, the bounty award shall be paid out in USD.
--   Multiple vulnerabilities of a similar root cause will be paid out as one report, as a single bounty award, determined by the severity of the vulnerability as described above.
+The following vulnerabilities are excluded from the rewards for this bug bounty program:
 
-# Out of scope
+- Attacks that the reporter has already exploited themselves, leading to damage.
+- Attacks requiring access to leaked keys/credentials.
+- Internally known issues, duplicate issues, or issues that have already been made public; in such cases, proof of prior disclosure will be provided.
+- Attacks that rely on social engineering or require physical access to the victim’s device.
+- Information disclosure with minimal security impact (Ex: stack traces, path disclosure, directory listing, logs).
+- Tab-nabbing.
+- Vulnerabilities related to auto-fill web forms.
+- Vulnerabilities only exploitable on out-of-date browsers or platforms.
+- Attacks requiring physical access to the victim device.
+- Incorrect data supplied by third party oracles.
 
-The following vulnerabilities are excluded from the bug bounty program:
+### Blockchain:
 
--   Attacks that the reporter has already exploited themselves, leading to damage
--   Attacks requiring access to leaked keys/credentials
--   Attacks requiring access to privileged addresses (governance, strategist), except in such cases where the contracts are intended to have no privileged access to functions that make the attack possible
--   Broken link hijacking
+- Basic economic governance attacks (e.g. 51% attack).
+- Best practice critiques.
+- Missing or incorrect data in events.
+- Sybil attacks.
+- Centralization risk.
 
-### Smart Contracts and Blockchain/DLT
+### Smart Contracts:
 
--   Basic economic governance attacks (e.g. 51% attack)
--   Lack of liquidity
--   Best practice critiques
--   Sybil attacks
--   Centralization risks
+- Incorrect data supplied by third-party oracles (not to exclude oracle manipulation/flash loan attacks; use of such methods to generate critical impacts remain in-scope for this program).
+- Basic economic governance attacks (e.g., 51% attack).
+- Lack of liquidity.
+- Best practice critiques.
+- Missing or incorrect data in events.
+- Incorrect naming (but still correct data) in contracts.
+- Minor rounding errors that don’t lead to substantial loss of funds.
 
-### Websites and Apps
+## Exclusions
 
--   Theoretical impacts without any proof or demonstration
--   Content spoofing / text injection issues
--   Self-XSS
--   Captcha bypass using OCR
--   CSRF with no security impact (logout CSRF, change language, etc.)
--   Missing HTTP Security Headers (such as X-FRAME-OPTIONS) or cookie security flags (such as “httponly”)
--   Server-side information disclosure such as IPs, server names, and most stack traces
--   Vulnerabilities used to enumerate or confirm the existence of users or tenants
--   Vulnerabilities requiring unlikely user actions
--   URL Redirects (unless combined with another vulnerability to produce a more severe vulnerability)
--   Lack of SSL/TLS best practices
--   Attacks involving DDoS
--   Attacks requiring privileged access from within the organization
--   SPF records for email domains
--   Feature requests
--   Best practices
+The following activities are prohibited by this bug bounty program:
 
-# Eligibility
-
--   Participants must use the [Immunefi dashboard](http://bugs.immunefi.com) to report bugs or vulnerabilities. Reports made via email, Discord, or Twitter will not be eligible for bounties.
--   Bug reports that are disclosed publicly are not eligible for bounties.
--   If multiple reports are submitted for the same class of exploit, the first submission is eligible for the bounty.
--   Participants must complete KYC prior to distribution of a bounty.
-
-# Prohibited activities
-
-The following activities are prohibited by this bug bounty program. Participating in these activities can result in a temporary suspension or permanent ban from the bug bounty platform, which may also result in the forfeiture and loss of access to all bug submissions and zero payout.
-
-There is no tolerance for spam/low-quality/incomplete bug reports, “beg bounty” behavior, and misrepresentation of assets and severity.
-
--   Any testing with mainnet or public testnet deployed code; all testing should be done on private testnets
--   Attempting phishing or other social engineering attacks against Sui or Immunefi employees and/or customers
--   Any testing with third party systems and applications (e.g. browser extensions) as well as websites (e.g. SSO providers, advertising networks)
--   Any denial of service attacks
--   Automated testing of services that generates significant amounts of traffic
--   Public disclosure of an unpatched vulnerability in an embargoed bounty
--   Any other actions prohibited by the [Immunefi Rules](https://immunefi.com/rules/). These rules are subject to change at any time.
-
----
-
-# FAQ
-
-**Where can I find more information on the bug bounty program?**
-
-_All of the program details along with a link to the dashboard to report a bug are available on [Immunefi’s bounty program page for Sui](https://immunefi.com/bounty/sui/)._
-
-**How do I join the program?**
-
-_If you find a bug or vulnerability, report it using the [Immunefi dashboard](http://bugs.immunefi.com). You should receive an acknowledgement of your report within 48 hours for critical vulnerabilities and 96 hours for all other vulnerabilities._
-
-**Where can I get technical questions answered?**
-
-_Sui and Immunefi will be conducting Office Hours to answer questions. A date will be announced on Twitter by [@SuiNetwork](https://twitter.com/suinetwork). If you are not able to attend, you can email questions to support@immunefi.com._ with questions regarding the Bug Bounty Program.
-
-For additional security concerns/questions/comments outside the scope of the Immunefi Bug Bounty Program, reach out to Sui's Community [Discord](https://discord.gg/sui), [Forums](https://forums.sui.io/), or e-mail us at _security@sui.io_
-
-**Who is behind this program?**
-
-_The program is funded and managed by the Sui Foundation, in partnership with Immunefi._
+- Any testing with mainnet or public testnet contracts; all testing should be done on [private testnets](https://aptos.dev/nodes/local-testnet/local-testnet-index/).
+- Any testing with pricing oracles or third party smart contracts.
+- Attempting to phish or otherwise use social engineering attacks against contributors, employees, and/or customers.
+- Any testing with third-party systems and applications (e.g., browser extensions) as well as websites (e.g., SSO providers, advertising networks).
+- Any denial of service attacks.
+- Automated testing of services that generates significant amounts of traffic.
+- Public disclosure of an unpatched vulnerability in an embargoed bounty.

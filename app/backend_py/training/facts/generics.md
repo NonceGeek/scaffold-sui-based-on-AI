@@ -370,7 +370,7 @@ fun foo(): (R, R) {
 }
 ```
 
-For more information, see the abilities section on [conditional abilities and generic types](./abilities.html#conditional-abilities-and-generic-types).
+For more information, see the abilities section on [conditional abilities and generic types](./abilities.md#conditional-abilities-and-generic-types).
 
 ## Limitations on Recursions
 
@@ -435,7 +435,7 @@ module m {
     // error!
     // foo<T> -> foo<A<T>> -> foo<A<A<T>>> -> ...
     fun foo<T>() {
-        foo<Foo<T>>();
+        foo<A<T>>();
     }
 }
 }

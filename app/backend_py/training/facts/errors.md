@@ -1,226 +1,548 @@
-## Errors
 
-NAN includes helpers for creating, throwing and catching Errors as much of this functionality varies across the supported versions of V8 and must be abstracted.
+<a name="0x1_errors"></a>
 
-Note that an Error object is simply a specialized form of `v8::Value`.
+# Module `0x1::errors`
 
-Also consult the V8 Embedders Guide section on [Exceptions](https://developers.google.com/v8/embed#exceptions) for more information.
+Module defining error codes used in Move aborts throughout the framework.
 
- - <a href="#api_nan_error"><b><code>Nan::Error()</code></b></a>
- - <a href="#api_nan_range_error"><b><code>Nan::RangeError()</code></b></a>
- - <a href="#api_nan_reference_error"><b><code>Nan::ReferenceError()</code></b></a>
- - <a href="#api_nan_syntax_error"><b><code>Nan::SyntaxError()</code></b></a>
- - <a href="#api_nan_type_error"><b><code>Nan::TypeError()</code></b></a>
- - <a href="#api_nan_throw_error"><b><code>Nan::ThrowError()</code></b></a>
- - <a href="#api_nan_throw_range_error"><b><code>Nan::ThrowRangeError()</code></b></a>
- - <a href="#api_nan_throw_reference_error"><b><code>Nan::ThrowReferenceError()</code></b></a>
- - <a href="#api_nan_throw_syntax_error"><b><code>Nan::ThrowSyntaxError()</code></b></a>
- - <a href="#api_nan_throw_type_error"><b><code>Nan::ThrowTypeError()</code></b></a>
- - <a href="#api_nan_fatal_exception"><b><code>Nan::FatalException()</code></b></a>
- - <a href="#api_nan_errno_exception"><b><code>Nan::ErrnoException()</code></b></a>
- - <a href="#api_nan_try_catch"><b><code>Nan::TryCatch</code></b></a>
+A <code>u64</code> error code is constructed from two values:
 
+1. The *error category* which is encoded in the lower 8 bits of the code. Error categories are
+declared in this module and are globally unique across the Diem framework. There is a limited
+fixed set of predefined categories, and the framework is guaranteed to use those consistently.
 
-<a name="api_nan_error"></a>
-### Nan::Error()
+2. The *error reason* which is encoded in the remaining 56 bits of the code. The reason is a unique
+number relative to the module which raised the error and can be used to obtain more information about
+the error at hand. It is mostly used for diagnosis purposes. Error reasons may change over time as the
+framework evolves.
 
-Create a new Error object using the [v8::Exception](https://v8docs.nodesource.com/node-8.16/da/d6a/classv8_1_1_exception.html) class in a way that is compatible across the supported versions of V8.
+>TODO: determine what kind of stability guarantees we give about reasons/associated module.
 
-Note that an Error object is simply a specialized form of `v8::Value`.
 
-Signature:
+-  [Constants](#@Constants_0)
+-  [Function `make`](#0x1_errors_make)
+-  [Function `invalid_state`](#0x1_errors_invalid_state)
+-  [Function `requires_address`](#0x1_errors_requires_address)
+-  [Function `requires_role`](#0x1_errors_requires_role)
+-  [Function `requires_capability`](#0x1_errors_requires_capability)
+-  [Function `not_published`](#0x1_errors_not_published)
+-  [Function `already_published`](#0x1_errors_already_published)
+-  [Function `invalid_argument`](#0x1_errors_invalid_argument)
+-  [Function `limit_exceeded`](#0x1_errors_limit_exceeded)
+-  [Function `internal`](#0x1_errors_internal)
+-  [Function `custom`](#0x1_errors_custom)
 
-```c++
-v8::Local<v8::Value> Nan::Error(const char *msg);
-v8::Local<v8::Value> Nan::Error(v8::Local<v8::String> msg);
-```
 
+<pre><code></code></pre>
 
-<a name="api_nan_range_error"></a>
-### Nan::RangeError()
 
-Create a new RangeError object using the [v8::Exception](https://v8docs.nodesource.com/node-8.16/da/d6a/classv8_1_1_exception.html) class in a way that is compatible across the supported versions of V8.
 
-Note that an RangeError object is simply a specialized form of `v8::Value`.
+<a name="@Constants_0"></a>
 
-Signature:
+## Constants
 
-```c++
-v8::Local<v8::Value> Nan::RangeError(const char *msg);
-v8::Local<v8::Value> Nan::RangeError(v8::Local<v8::String> msg);
-```
 
+<a name="0x1_errors_ALREADY_PUBLISHED"></a>
 
-<a name="api_nan_reference_error"></a>
-### Nan::ReferenceError()
+Attempting to publish a resource that is already published. Example: calling an initialization function
+twice.
 
-Create a new ReferenceError object using the [v8::Exception](https://v8docs.nodesource.com/node-8.16/da/d6a/classv8_1_1_exception.html) class in a way that is compatible across the supported versions of V8.
 
-Note that an ReferenceError object is simply a specialized form of `v8::Value`.
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_ALREADY_PUBLISHED">ALREADY_PUBLISHED</a>: u8 = 6;
+</code></pre>
 
-Signature:
 
-```c++
-v8::Local<v8::Value> Nan::ReferenceError(const char *msg);
-v8::Local<v8::Value> Nan::ReferenceError(v8::Local<v8::String> msg);
-```
 
+<a name="0x1_errors_CUSTOM"></a>
 
-<a name="api_nan_syntax_error"></a>
-### Nan::SyntaxError()
+A custom error category for extension points.
 
-Create a new SyntaxError object using the [v8::Exception](https://v8docs.nodesource.com/node-8.16/da/d6a/classv8_1_1_exception.html) class in a way that is compatible across the supported versions of V8.
 
-Note that an SyntaxError object is simply a specialized form of `v8::Value`.
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_CUSTOM">CUSTOM</a>: u8 = 255;
+</code></pre>
 
-Signature:
 
-```c++
-v8::Local<v8::Value> Nan::SyntaxError(const char *msg);
-v8::Local<v8::Value> Nan::SyntaxError(v8::Local<v8::String> msg);
-```
 
+<a name="0x1_errors_INTERNAL"></a>
 
-<a name="api_nan_type_error"></a>
-### Nan::TypeError()
+An internal error (bug) has occurred.
 
-Create a new TypeError object using the [v8::Exception](https://v8docs.nodesource.com/node-8.16/da/d6a/classv8_1_1_exception.html) class in a way that is compatible across the supported versions of V8.
 
-Note that an TypeError object is simply a specialized form of `v8::Value`.
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_INTERNAL">INTERNAL</a>: u8 = 10;
+</code></pre>
 
-Signature:
 
-```c++
-v8::Local<v8::Value> Nan::TypeError(const char *msg);
-v8::Local<v8::Value> Nan::TypeError(v8::Local<v8::String> msg);
-```
 
+<a name="0x1_errors_INVALID_ARGUMENT"></a>
 
-<a name="api_nan_throw_error"></a>
-### Nan::ThrowError()
+An argument provided to an operation is invalid. Example: a signing key has the wrong format.
 
-Throw an Error object (a specialized `v8::Value` as above) in the current context. If a `msg` is provided, a new Error object will be created.
 
-Signature:
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_INVALID_ARGUMENT">INVALID_ARGUMENT</a>: u8 = 7;
+</code></pre>
 
-```c++
-void Nan::ThrowError(const char *msg);
-void Nan::ThrowError(v8::Local<v8::String> msg);
-void Nan::ThrowError(v8::Local<v8::Value> error);
-```
 
 
-<a name="api_nan_throw_range_error"></a>
-### Nan::ThrowRangeError()
+<a name="0x1_errors_INVALID_STATE"></a>
 
-Throw an RangeError object (a specialized `v8::Value` as above) in the current context. If a `msg` is provided, a new RangeError object will be created.
+The system is in a state where the performed operation is not allowed. Example: call to a function only allowed
+in genesis.
 
-Signature:
 
-```c++
-void Nan::ThrowRangeError(const char *msg);
-void Nan::ThrowRangeError(v8::Local<v8::String> msg);
-void Nan::ThrowRangeError(v8::Local<v8::Value> error);
-```
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_INVALID_STATE">INVALID_STATE</a>: u8 = 1;
+</code></pre>
 
 
-<a name="api_nan_throw_reference_error"></a>
-### Nan::ThrowReferenceError()
 
-Throw an ReferenceError object (a specialized `v8::Value` as above) in the current context. If a `msg` is provided, a new ReferenceError object will be created.
+<a name="0x1_errors_LIMIT_EXCEEDED"></a>
 
-Signature:
+A limit on an amount, e.g. a currency, is exceeded. Example: withdrawal of money after account limits window
+is exhausted.
 
-```c++
-void Nan::ThrowReferenceError(const char *msg);
-void Nan::ThrowReferenceError(v8::Local<v8::String> msg);
-void Nan::ThrowReferenceError(v8::Local<v8::Value> error);
-```
 
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_LIMIT_EXCEEDED">LIMIT_EXCEEDED</a>: u8 = 8;
+</code></pre>
 
-<a name="api_nan_throw_syntax_error"></a>
-### Nan::ThrowSyntaxError()
 
-Throw an SyntaxError object (a specialized `v8::Value` as above) in the current context. If a `msg` is provided, a new SyntaxError object will be created.
 
-Signature:
+<a name="0x1_errors_NOT_PUBLISHED"></a>
 
-```c++
-void Nan::ThrowSyntaxError(const char *msg);
-void Nan::ThrowSyntaxError(v8::Local<v8::String> msg);
-void Nan::ThrowSyntaxError(v8::Local<v8::Value> error);
-```
+A resource is required but not published. Example: access to non-existing AccountLimits resource.
 
 
-<a name="api_nan_throw_type_error"></a>
-### Nan::ThrowTypeError()
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_NOT_PUBLISHED">NOT_PUBLISHED</a>: u8 = 5;
+</code></pre>
 
-Throw an TypeError object (a specialized `v8::Value` as above) in the current context. If a `msg` is provided, a new TypeError object will be created.
 
-Signature:
 
-```c++
-void Nan::ThrowTypeError(const char *msg);
-void Nan::ThrowTypeError(v8::Local<v8::String> msg);
-void Nan::ThrowTypeError(v8::Local<v8::Value> error);
-```
+<a name="0x1_errors_REQUIRES_ADDRESS"></a>
 
-<a name="api_nan_fatal_exception"></a>
-### Nan::FatalException()
+The signer of a transaction does not have the expected address for this operation. Example: a call to a function
+which publishes a resource under a particular address.
 
-Replaces `node::FatalException()` which has a different API across supported versions of Node. For use with [`Nan::TryCatch`](#api_nan_try_catch).
 
-Signature:
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_REQUIRES_ADDRESS">REQUIRES_ADDRESS</a>: u8 = 2;
+</code></pre>
 
-```c++
-void Nan::FatalException(const Nan::TryCatch& try_catch);
-```
 
-<a name="api_nan_errno_exception"></a>
-### Nan::ErrnoException()
 
-Replaces `node::ErrnoException()` which has a different API across supported versions of Node. 
+<a name="0x1_errors_REQUIRES_CAPABILITY"></a>
 
-Signature:
+The signer of a transaction does not have a required capability.
 
-```c++
-v8::Local<v8::Value> Nan::ErrnoException(int errorno,
-                                         const char* syscall = NULL,
-                                         const char* message = NULL,
-                                         const char* path = NULL);
-```
 
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_REQUIRES_CAPABILITY">REQUIRES_CAPABILITY</a>: u8 = 4;
+</code></pre>
 
-<a name="api_nan_try_catch"></a>
-### Nan::TryCatch
 
-A simple wrapper around [`v8::TryCatch`](https://v8docs.nodesource.com/node-8.16/d4/dc6/classv8_1_1_try_catch.html) compatible with all supported versions of V8. Can be used as a direct replacement in most cases. See also [`Nan::FatalException()`](#api_nan_fatal_exception) for an internal use compatible with `node::FatalException`.
 
-Signature:
+<a name="0x1_errors_REQUIRES_ROLE"></a>
 
-```c++
-class Nan::TryCatch {
- public:
-  Nan::TryCatch();
+The signer of a transaction does not have the expected  role for this operation. Example: a call to a function
+which requires the signer to have the role of treasury compliance.
 
-  bool HasCaught() const;
 
-  bool CanContinue() const;
+<pre><code><b>const</b> <a href="errors.md#0x1_errors_REQUIRES_ROLE">REQUIRES_ROLE</a>: u8 = 3;
+</code></pre>
 
-  v8::Local<v8::Value> ReThrow();
 
-  v8::Local<v8::Value> Exception() const;
 
-  // Nan::MaybeLocal for older versions of V8
-  v8::MaybeLocal<v8::Value> StackTrace() const;
+<a name="0x1_errors_make"></a>
 
-  v8::Local<v8::Message> Message() const;
+## Function `make`
 
-  void Reset();
+A function to create an error from from a category and a reason.
 
-  void SetVerbose(bool value);
 
-  void SetCaptureMessage(bool value);
-};
-```
+<pre><code><b>fun</b> <a href="errors.md#0x1_errors_make">make</a>(category: u8, reason: u64): u64
+</code></pre>
 
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>fun</b> <a href="errors.md#0x1_errors_make">make</a>(category: u8, reason: u64): u64 {
+    (category <b>as</b> u64) + (reason &lt;&lt; 8)
+}
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>ensures</b> [concrete] result == category + (reason &lt;&lt; 8) % (1 &lt;&lt; 64);
+<b>aborts_if</b> [abstract] <b>false</b>;
+<b>ensures</b> [abstract] result == category;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_invalid_state"></a>
+
+## Function `invalid_state`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_invalid_state">invalid_state</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_invalid_state">invalid_state</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_INVALID_STATE">INVALID_STATE</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_INVALID_STATE">INVALID_STATE</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_requires_address"></a>
+
+## Function `requires_address`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_requires_address">requires_address</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_requires_address">requires_address</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_REQUIRES_ADDRESS">REQUIRES_ADDRESS</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_REQUIRES_ADDRESS">REQUIRES_ADDRESS</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_requires_role"></a>
+
+## Function `requires_role`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_requires_role">requires_role</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_requires_role">requires_role</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_REQUIRES_ROLE">REQUIRES_ROLE</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_REQUIRES_ROLE">REQUIRES_ROLE</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_requires_capability"></a>
+
+## Function `requires_capability`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_requires_capability">requires_capability</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_requires_capability">requires_capability</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_REQUIRES_CAPABILITY">REQUIRES_CAPABILITY</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_REQUIRES_CAPABILITY">REQUIRES_CAPABILITY</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_not_published"></a>
+
+## Function `not_published`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_not_published">not_published</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_not_published">not_published</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_NOT_PUBLISHED">NOT_PUBLISHED</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_NOT_PUBLISHED">NOT_PUBLISHED</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_already_published"></a>
+
+## Function `already_published`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_already_published">already_published</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_already_published">already_published</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_ALREADY_PUBLISHED">ALREADY_PUBLISHED</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_ALREADY_PUBLISHED">ALREADY_PUBLISHED</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_invalid_argument"></a>
+
+## Function `invalid_argument`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_invalid_argument">invalid_argument</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_invalid_argument">invalid_argument</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_INVALID_ARGUMENT">INVALID_ARGUMENT</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_INVALID_ARGUMENT">INVALID_ARGUMENT</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_limit_exceeded"></a>
+
+## Function `limit_exceeded`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_limit_exceeded">limit_exceeded</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_limit_exceeded">limit_exceeded</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_LIMIT_EXCEEDED">LIMIT_EXCEEDED</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_LIMIT_EXCEEDED">LIMIT_EXCEEDED</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_internal"></a>
+
+## Function `internal`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <b>internal</b>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <b>internal</b>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_INTERNAL">INTERNAL</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_INTERNAL">INTERNAL</a>;
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_errors_custom"></a>
+
+## Function `custom`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_custom">custom</a>(reason: u64): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="errors.md#0x1_errors_custom">custom</a>(reason: u64): u64 { <a href="errors.md#0x1_errors_make">make</a>(<a href="errors.md#0x1_errors_CUSTOM">CUSTOM</a>, reason) }
+</code></pre>
+
+
+
+</details>
+
+<details>
+<summary>Specification</summary>
+
+
+
+<pre><code><b>pragma</b> opaque = <b>true</b>;
+<b>aborts_if</b> <b>false</b>;
+<b>ensures</b> result == <a href="errors.md#0x1_errors_CUSTOM">CUSTOM</a>;
+</code></pre>
+
+
+
+</details>

@@ -8,6 +8,11 @@ A Move source file (or **compilation unit**) may contain multiple modules and sc
 
 ### Scripts
 
+:::tip Tutorial
+To learn how to publish and execute a Move script, follow the [Move Scripts](../move-on-aptos/move-scripts.md) example.
+:::
+
+
 A script has the following structure:
 
 ```text
@@ -54,11 +59,11 @@ where `<address>` is a valid [named or literal address](./address.md).
 For example:
 
 ```move
-module 0x42::test {
+module 0x42::example {
     struct Example has copy, drop { i: u64 }
 
     use std::debug;
-    friend 0x42::another_test;
+    friend 0x42::another_example;
 
     const ONE: u64 = 1;
 
@@ -70,19 +75,19 @@ module 0x42::test {
 }
 ```
 
-The `module 0x42::test` part specifies that the module `test` will be published under the [account address](./address.md) `0x42` in [global storage](./global-storage-structure.md).
+The `module 0x42::example` part specifies that the module `example` will be published under the [account address](./address.md) `0x42` in [global storage](./global-storage-structure.md).
 
 Modules can also be declared using [named addresses](./address.md). For example:
 
 ```move
-module test_addr::test {
+module example_addr::example {
     struct Example has copy, drop { a: address }
 
     use std::debug;
-    friend test_addr::another_test;
+    friend example_addr::another_example;
 
     public fun print() {
-        let example = Example { a: @test_addr };
+        let example = Example { a: @example_addr };
         debug::print(&example)
     }
 }

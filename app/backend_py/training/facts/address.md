@@ -1,315 +1,73 @@
-
-<a name="0x2_address"></a>
-
-# Module `0x2::address`
-
-
-
--  [Constants](#@Constants_0)
--  [Function `to_u256`](#0x2_address_to_u256)
--  [Function `from_u256`](#0x2_address_from_u256)
--  [Function `from_bytes`](#0x2_address_from_bytes)
--  [Function `to_bytes`](#0x2_address_to_bytes)
--  [Function `to_ascii_string`](#0x2_address_to_ascii_string)
--  [Function `to_string`](#0x2_address_to_string)
--  [Function `length`](#0x2_address_length)
--  [Function `max`](#0x2_address_max)
--  [Module Specification](#@Module_Specification_1)
-
-
-<pre><code><b>use</b> <a href="">0x1::ascii</a>;
-<b>use</b> <a href="">0x1::bcs</a>;
-<b>use</b> <a href="">0x1::string</a>;
-<b>use</b> <a href="hex.md#0x2_hex">0x2::hex</a>;
-</code></pre>
-
-
-
-<a name="@Constants_0"></a>
-
-## Constants
-
-
-<a name="0x2_address_EAddressParseError"></a>
-
-Error from <code>from_bytes</code> when it is supplied too many or too few bytes.
-
-
-<pre><code><b>const</b> <a href="address.md#0x2_address_EAddressParseError">EAddressParseError</a>: u64 = 0;
-</code></pre>
-
-
-
-<a name="0x2_address_EU256TooBigToConvertToAddress"></a>
-
-Error from <code>from_u256</code> when
-
-
-<pre><code><b>const</b> <a href="address.md#0x2_address_EU256TooBigToConvertToAddress">EU256TooBigToConvertToAddress</a>: u64 = 1;
-</code></pre>
-
-
-
-<a name="0x2_address_LENGTH"></a>
-
-The length of an address, in bytes
-
-
-<pre><code><b>const</b> <a href="address.md#0x2_address_LENGTH">LENGTH</a>: u64 = 20;
-</code></pre>
-
-
-
-<a name="0x2_address_MAX"></a>
-
-
-
-<pre><code><b>const</b> <a href="address.md#0x2_address_MAX">MAX</a>: u256 = 1461501637330902918203684832716283019655932542975;
-</code></pre>
-
-
-
-<a name="0x2_address_to_u256"></a>
-
-## Function `to_u256`
-
-Convert <code>a</code> into a u256 by interpreting <code>a</code> as the bytes of a big-endian integer
-(e.g., <code><a href="address.md#0x2_address_to_u256">to_u256</a>(0x1) == 1</code>)
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_u256">to_u256</a>(a: <b>address</b>): u256
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>native</b> <b>fun</b> <a href="address.md#0x2_address_to_u256">to_u256</a>(a: <b>address</b>): u256;
-</code></pre>
-
-
-
-</details>
-
-<details>
-<summary>Specification</summary>
-
-
-
-<pre><code><b>pragma</b> opaque;
-<b>aborts_if</b> [abstract] <b>true</b>;
-</code></pre>
-
-
-
-</details>
-
-<a name="0x2_address_from_u256"></a>
-
-## Function `from_u256`
-
-Convert <code>n</code> into an address by encoding it as a big-endian integer (e.g., <code><a href="address.md#0x2_address_from_u256">from_u256</a>(1) = @0x1</code>)
-Aborts if <code>n</code> > <code>MAX_ADDRESS</code>
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_from_u256">from_u256</a>(n: u256): <b>address</b>
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>native</b> <b>fun</b> <a href="address.md#0x2_address_from_u256">from_u256</a>(n: u256): <b>address</b>;
-</code></pre>
-
-
-
-</details>
-
-<details>
-<summary>Specification</summary>
-
-
-
-<pre><code><b>pragma</b> opaque;
-<b>aborts_if</b> [abstract] <b>true</b>;
-</code></pre>
-
-
-
-</details>
-
-<a name="0x2_address_from_bytes"></a>
-
-## Function `from_bytes`
-
-Convert <code>bytes</code> into an address.
-Aborts with <code><a href="address.md#0x2_address_EAddressParseError">EAddressParseError</a></code> if the length of <code>bytes</code> is not 20
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_from_bytes">from_bytes</a>(bytes: <a href="">vector</a>&lt;u8&gt;): <b>address</b>
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>native</b> <b>fun</b> <a href="address.md#0x2_address_from_bytes">from_bytes</a>(bytes: <a href="">vector</a>&lt;u8&gt;): <b>address</b>;
-</code></pre>
-
-
-
-</details>
-
-<details>
-<summary>Specification</summary>
-
-
-
-<pre><code><b>pragma</b> opaque;
-<b>aborts_if</b> [abstract] <b>true</b>;
-</code></pre>
-
-
-
-</details>
-
-<a name="0x2_address_to_bytes"></a>
-
-## Function `to_bytes`
-
-Convert <code>a</code> into BCS-encoded bytes.
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_bytes">to_bytes</a>(a: <b>address</b>): <a href="">vector</a>&lt;u8&gt;
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_bytes">to_bytes</a>(a: <b>address</b>): <a href="">vector</a>&lt;u8&gt; {
-    <a href="_to_bytes">bcs::to_bytes</a>(&a)
+# Address
+
+`address` is a built-in type in Move that is used to represent locations (sometimes called accounts) in global storage. An `address` value is a 256-bit (32-byte) identifier. At a given address, two things can be stored: [Modules](./modules-and-scripts.md) and [Resources](./structs-and-resources.md).
+
+Although an `address` is a 256-bit integer under the hood, Move addresses are intentionally opaque---they cannot be created from integers, they do not support arithmetic operations, and they cannot be modified. Even though there might be interesting programs that would use such a feature (e.g., pointer arithmetic in C fills a similar niche), Move does not allow this dynamic behavior because it has been designed from the ground up to support static verification.
+
+You can use runtime address values (values of type `address`) to access resources at that address. You *cannot* access modules at runtime via address values.
+
+## Addresses and Their Syntax
+
+Addresses come in two flavors, named or numerical. The syntax for a named address follows the
+same rules for any named identifier in Move. The syntax of a numerical address is not restricted
+to hex-encoded values, and any valid [`u256` numerical value](./integers.md) can be used as an
+address value, e.g., `42`, `0xCAFE`, and `2021` are all valid numerical address
+literals.
+
+To distinguish when an address is being used in an expression context or not, the
+syntax when using an address differs depending on the context where it's used:
+* When an address is used as an expression the address must be prefixed by the `@` character, i.e., [`@<numerical_value>`](./integers.md) or `@<named_address_identifier>`.
+* Outside of expression contexts, the address may be written without the leading `@` character, i.e., [`<numerical_value>`](./integers.md) or `<named_address_identifier>`.
+
+In general, you can think of `@` as an operator that takes an address from being a namespace item to being an expression item.
+
+## Named Addresses
+
+Named addresses are a feature that allow identifiers to be used in place of
+numerical values in any spot where addresses are used, and not just at the
+value level.  Named addresses are declared and bound as top level elements
+(outside of modules and scripts) in Move Packages, or passed as arguments
+to the Move compiler.
+
+Named addresses only exist at the source language level and will be fully
+substituted for their value at the bytecode level. Because of this, modules
+and module members _must_ be accessed through the module's named address
+and not through the numerical value assigned to the named address during
+compilation, e.g., `use my_addr::foo` is _not_ equivalent to `use 0x2::foo`
+even if the Move program is compiled with `my_addr` set to `0x2`. This
+distinction is discussed in more detail in the section on [Modules and
+Scripts](./modules-and-scripts.md).
+
+### Examples
+
+```move
+let a1: address = @0x1; // shorthand for 0x0000000000000000000000000000000000000000000000000000000000000001
+let a2: address = @0x42; // shorthand for 0x0000000000000000000000000000000000000000000000000000000000000042
+let a3: address = @0xDEADBEEF; // shorthand for 0x00000000000000000000000000000000000000000000000000000000DEADBEEF
+let a4: address = @0x000000000000000000000000000000000000000000000000000000000000000A;
+let a5: address = @std; // Assigns `a5` the value of the named address `std`
+let a6: address = @66;
+let a7: address = @0x42;
+
+module 66::some_module {   // Not in expression context, so no @ needed
+    use 0x1::other_module; // Not in expression context so no @ needed
+    use std::vector;       // Can use a named address as a namespace item when using other modules
+    ...
 }
-</code></pre>
 
-
-
-</details>
-
-<a name="0x2_address_to_ascii_string"></a>
-
-## Function `to_ascii_string`
-
-Convert <code>a</code> to a hex-encoded ASCII string
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_ascii_string">to_ascii_string</a>(a: <b>address</b>): <a href="_String">ascii::String</a>
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_ascii_string">to_ascii_string</a>(a: <b>address</b>): <a href="_String">ascii::String</a> {
-    <a href="_string">ascii::string</a>(<a href="hex.md#0x2_hex_encode">hex::encode</a>(<a href="address.md#0x2_address_to_bytes">to_bytes</a>(a)))
+module std::other_module {  // Can use a named address as a namespace item to declare a module
+    ...
 }
-</code></pre>
+```
 
+## Global Storage Operations
 
+The primary purpose of `address` values are to interact with the global storage operations.
 
-</details>
+`address` values are used with the `exists`, `borrow_global`, `borrow_global_mut`, and `move_from` [operations](./global-storage-operators.md).
 
-<a name="0x2_address_to_string"></a>
+The only global storage operation that *does not* use `address` is `move_to`, which uses [`signer`](./signer.md).
 
-## Function `to_string`
+## Ownership
 
-Convert <code>a</code> to a hex-encoded ASCII string
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_string">to_string</a>(a: <b>address</b>): <a href="_String">string::String</a>
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_to_string">to_string</a>(a: <b>address</b>): <a href="_String">string::String</a> {
-    <a href="_from_ascii">string::from_ascii</a>(<a href="address.md#0x2_address_to_ascii_string">to_ascii_string</a>(a))
-}
-</code></pre>
-
-
-
-</details>
-
-<a name="0x2_address_length"></a>
-
-## Function `length`
-
-Length of a Sui address in bytes
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_length">length</a>(): u64
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_length">length</a>(): u64 {
-    <a href="address.md#0x2_address_LENGTH">LENGTH</a>
-}
-</code></pre>
-
-
-
-</details>
-
-<a name="0x2_address_max"></a>
-
-## Function `max`
-
-Largest possible address
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_max">max</a>(): u256
-</code></pre>
-
-
-
-<details>
-<summary>Implementation</summary>
-
-
-<pre><code><b>public</b> <b>fun</b> <a href="address.md#0x2_address_max">max</a>(): u256 {
-    <a href="address.md#0x2_address_MAX">MAX</a>
-}
-</code></pre>
-
-
-
-</details>
-
-<a name="@Module_Specification_1"></a>
-
-## Module Specification
-
-
-
-<pre><code><b>pragma</b> verify = <b>false</b>;
-</code></pre>
+As with the other scalar values built-in to the language, `address` values are implicitly copyable, meaning they can be copied without an explicit instruction such as [`copy`](./variables.md#move-and-copy).
