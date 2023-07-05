@@ -1,4 +1,4 @@
-defmodule ScaffoldSuiBasedOnAiWeb.Endpoint do
+defmodule ScaffoldSuiBasedOnAIWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :scaffold_sui_based_on_ai
 
   # The session will be stored in the cookie and signed,
@@ -21,7 +21,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.Endpoint do
     at: "/",
     from: :scaffold_sui_based_on_ai,
     gzip: false,
-    only: ScaffoldSuiBasedOnAiWeb.static_paths()
+    only: ScaffoldSuiBasedOnAIWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -47,5 +47,5 @@ defmodule ScaffoldSuiBasedOnAiWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ScaffoldSuiBasedOnAiWeb.Router
+  plug ScaffoldSuiBasedOnAIWeb.Router
 end

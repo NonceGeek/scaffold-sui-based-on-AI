@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(DAOSystemBasedOnGithub.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(ScaffoldSuiBasedOnAI.Repo, :manual)

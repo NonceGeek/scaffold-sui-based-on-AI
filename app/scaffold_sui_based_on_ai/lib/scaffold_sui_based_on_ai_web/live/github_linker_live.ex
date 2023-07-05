@@ -1,5 +1,5 @@
-defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
-    use ScaffoldSuiBasedOnAiWeb, :live_view
+defmodule ScaffoldSuiBasedOnAIWeb.GithubLinkerLive do
+    use ScaffoldSuiBasedOnAIWeb, :live_view
     @impl true
     def mount(_params, _session, socket) do
       {:ok, socket}
@@ -53,7 +53,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <g id="clust3" class="cluster">
             <title>cluster_3</title>
             <polygon fill="none" stroke="#0000ff" points="561,-8 561,-84.8 1105,-84.8 1105,-8 561,-8"/>
-            <text text-anchor="middle" x="833" y="-68.2" font-family="Times,serif" font-size="14.00" fill="#000000">Web3 Aptos Ex</text>
+            <text text-anchor="middle" x="833" y="-68.2" font-family="Times,serif" font-size="14.00" fill="#000000">Web3 Sui Ex</text>
             </g>
             <g id="clust4" class="cluster">
             <title>cluster_4</title>
@@ -88,7 +88,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_3_repo -->
             <g id="node11" class="node">
             <title>cluster_3_repo</title>
-            <g id="a_node11"><a xlink:href="https://github.com/NonceGeek/web3_aptos_ex" xlink:title="Repo" target="_blank">
+            <g id="a_node11"><a xlink:href="https://github.com/NonceGeek/web3_Sui_ex" xlink:title="Repo" target="_blank">
             <polygon fill="none" stroke="#000000" points="1097,-52 1043,-52 1043,-16 1097,-16 1097,-52"/>
             <text text-anchor="middle" x="1070" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">Repo</text>
             </a>
@@ -131,7 +131,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_1_movedid -->
             <g id="node5" class="node">
             <title>cluster_1_movedid</title>
-            <g id="a_node5"><a xlink:href="https://explorer.aptoslabs.com/account/0x2df41622c0c1baabaa73b2c24360d205e23e803959ebbcb0e5b80462165893ed?network=mainnet" xlink:title="DID: 0x2d...ed" target="_blank">
+            <g id="a_node5"><a xlink:href="https://explorer.Suilabs.com/account/0x2df41622c0c1baabaa73b2c24360d205e23e803959ebbcb0e5b80462165893ed?network=mainnet" xlink:title="DID: 0x2d...ed" target="_blank">
             <polygon fill="none" stroke="#000000" points="116.979,-163.6 17.021,-163.6 17.021,-127.6 116.979,-127.6 116.979,-163.6"/>
             <text text-anchor="middle" x="67" y="-141.4" font-family="Times,serif" font-size="14.00" fill="#000000">DID: 0x2d...ed</text>
             </a>
@@ -140,7 +140,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_2_movedid -->
             <g id="node7" class="node">
             <title>cluster_2_movedid</title>
-            <g id="a_node7"><a xlink:href="https://explorer.aptoslabs.com/account/0x06a19c3df50ea7e7b8e686246db5c4d98affa4aa0de05285688a90342751eeed" xlink:title="DID: 0x06...ed" target="_blank">
+            <g id="a_node7"><a xlink:href="https://explorer.Suilabs.com/account/0x06a19c3df50ea7e7b8e686246db5c4d98affa4aa0de05285688a90342751eeed" xlink:title="DID: 0x06...ed" target="_blank">
             <polygon fill="none" stroke="#000000" points="472.979,-52 373.021,-52 373.021,-16 472.979,-16 472.979,-52"/>
             <text text-anchor="middle" x="423" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">DID: 0x06...ed</text>
             </a>
@@ -176,7 +176,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_3_movedid -->
             <g id="node12" class="node">
             <title>cluster_3_movedid</title>
-            <g id="a_node12"><a xlink:href="https://explorer.aptoslabs.com/account/0x1e87fd50b0e297f5c8c05ee0e8516c7cdce991c91c9ce6817c65fcf7bd982602" xlink:title="DID: 0x1e...02" target="_blank">
+            <g id="a_node12"><a xlink:href="https://explorer.Suilabs.com/account/0x1e87fd50b0e297f5c8c05ee0e8516c7cdce991c91c9ce6817c65fcf7bd982602" xlink:title="DID: 0x1e...02" target="_blank">
             <polygon fill="none" stroke="#000000" points="1024.979,-52 925.021,-52 925.021,-16 1024.979,-16 1024.979,-52"/>
             <text text-anchor="middle" x="975" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">DID: 0x1e...02</text>
             </a>
@@ -185,7 +185,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_3_contributors -->
             <g id="node13" class="node">
             <title>cluster_3_contributors</title>
-            <g id="a_node13"><a xlink:href="https://github.com/NonceGeek/web3_aptos_ex#contributors" xlink:title="Contributors" target="_blank">
+            <g id="a_node13"><a xlink:href="https://github.com/NonceGeek/web3_Sui_ex#contributors" xlink:title="Contributors" target="_blank">
             <polygon fill="none" stroke="#000000" points="907.2745,-52 820.7255,-52 820.7255,-16 907.2745,-16 907.2745,-52"/>
             <text text-anchor="middle" x="864" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">Contributors</text>
             </a>
@@ -194,7 +194,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_3_money_history -->
             <g id="node14" class="node">
             <title>cluster_3_money_history</title>
-            <g id="a_node14"><a xlink:href="https://github.com/NonceGeek/web3_aptos_ex#money-history" xlink:title="Money History" target="_blank">
+            <g id="a_node14"><a xlink:href="https://github.com/NonceGeek/web3_Sui_ex#money-history" xlink:title="Money History" target="_blank">
             <polygon fill="none" stroke="#000000" points="802.6523,-52 701.3477,-52 701.3477,-16 802.6523,-16 802.6523,-52"/>
             <text text-anchor="middle" x="752" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">Money History</text>
             </a>
@@ -203,7 +203,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_3_distributed_rules -->
             <g id="node15" class="node">
             <title>cluster_3_distributed_rules</title>
-            <g id="a_node15"><a xlink:href="https://github.com/NonceGeek/web3_aptos_ex#distributed-rules" xlink:title="Distributed Rules" target="_blank">
+            <g id="a_node15"><a xlink:href="https://github.com/NonceGeek/web3_Sui_ex#distributed-rules" xlink:title="Distributed Rules" target="_blank">
             <polygon fill="none" stroke="#000000" points="683.3758,-52 568.6242,-52 568.6242,-16 683.3758,-16 683.3758,-52"/>
             <text text-anchor="middle" x="626" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">Distributed Rules</text>
             </a>
@@ -255,7 +255,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.GithubLinkerLive do
             <!-- cluster_4_movedid -->
             <g id="node20" class="node">
             <title>cluster_4_movedid</title>
-            <g id="a_node20"><a xlink:href="https://explorer.aptoslabs.com/account/0x82b219e76ca10cbcc6a66a547c43a8c72531fb4785548db153f02f552dbf7a55?network=mainnet" xlink:title="DID: 0x82...55" target="_blank">
+            <g id="a_node20"><a xlink:href="https://explorer.Suilabs.com/account/0x82b219e76ca10cbcc6a66a547c43a8c72531fb4785548db153f02f552dbf7a55?network=mainnet" xlink:title="DID: 0x82...55" target="_blank">
             <polygon fill="none" stroke="#000000" points="116.2647,-275.2 15.7353,-275.2 15.7353,-239.2 116.2647,-239.2 116.2647,-275.2"/>
             <text text-anchor="middle" x="66" y="-253" font-family="Times,serif" font-size="14.00" fill="#000000">DID: 0x82...55</text>
             </a>

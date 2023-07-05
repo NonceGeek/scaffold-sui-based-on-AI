@@ -1,4 +1,4 @@
-defmodule DAOSystemBasedOnGithub.Application do
+defmodule ScaffoldSuiBasedOnAI.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,22 +9,22 @@ defmodule DAOSystemBasedOnGithub.Application do
   def start(_type, _args) do
     children = [
       # Start the Telemetry supervisor
-      ScaffoldSuiBasedOnAiWeb.Telemetry,
+      ScaffoldSuiBasedOnAIWeb.Telemetry,
       # Start the Ecto repository
-      DAOSystemBasedOnGithub.Repo,
+      ScaffoldSuiBasedOnAI.Repo,
       # Start the PubSub system
-      {Phoenix.PubSub, name: DAOSystemBasedOnGithub.PubSub},
+      {Phoenix.PubSub, name: ScaffoldSuiBasedOnAI.PubSub},
       # Start Finch
-      {Finch, name: DAOSystemBasedOnGithub.Finch},
+      {Finch, name: ScaffoldSuiBasedOnAI.Finch},
       # Start the Endpoint (http/https)
-      ScaffoldSuiBasedOnAiWeb.Endpoint
-      # Start a worker by calling: DAOSystemBasedOnGithub.Worker.start_link(arg)
-      # {DAOSystemBasedOnGithub.Worker, arg}
+      ScaffoldSuiBasedOnAIWeb.Endpoint
+      # Start a worker by calling: ScaffoldSuiBasedOnAI.Worker.start_link(arg)
+      # {ScaffoldSuiBasedOnAI.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: DAOSystemBasedOnGithub.Supervisor]
+    opts = [strategy: :one_for_one, name: ScaffoldSuiBasedOnAI.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -32,7 +32,7 @@ defmodule DAOSystemBasedOnGithub.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    ScaffoldSuiBasedOnAiWeb.Endpoint.config_change(changed, removed)
+    ScaffoldSuiBasedOnAIWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

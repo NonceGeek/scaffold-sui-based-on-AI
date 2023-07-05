@@ -1,5 +1,5 @@
-defmodule ScaffoldSuiBasedOnAiWeb.DAppLive do
-  use ScaffoldSuiBasedOnAiWeb, :live_view
+defmodule ScaffoldSuiBasedOnAIWeb.DAppLive do
+  use ScaffoldSuiBasedOnAIWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do

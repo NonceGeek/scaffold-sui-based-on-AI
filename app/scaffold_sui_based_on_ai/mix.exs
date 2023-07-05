@@ -1,4 +1,4 @@
-defmodule DAOSystemBasedOnGithub.MixProject do
+defmodule ScaffoldSuiBasedOnAI.MixProject do
   use Mix.Project
 
   def project do
@@ -18,7 +18,7 @@ defmodule DAOSystemBasedOnGithub.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {DAOSystemBasedOnGithub.Application, []},
+      mod: {ScaffoldSuiBasedOnAI.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -59,12 +59,14 @@ defmodule DAOSystemBasedOnGithub.MixProject do
 
       # Github
       {:tentacat, "~> 2.0"},
-
-      # Aptos
-      {:web3_aptos_ex, "~> 1.1.4"},
-
       {:ecto, "~> 3.7", override: true},
       {:graphvix, "~> 1.1.0", git: "https://github.com/leeduckgo/graphvix.git", branch: "main"},
+
+
+      # openai
+      {:openai, "~> 0.4.2"},
+      {:httpoison, "~> 2.0", override: true},
+      {:poison, "~> 3.1"},
     ]
   end
 

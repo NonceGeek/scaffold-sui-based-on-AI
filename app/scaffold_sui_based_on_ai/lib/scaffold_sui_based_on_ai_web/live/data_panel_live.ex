@@ -1,6 +1,6 @@
-defmodule ScaffoldSuiBasedOnAiWeb.DataPanelLive do
-  use ScaffoldSuiBasedOnAiWeb, :live_view
-  alias DAOSystemBasedOnGithub.{App, ProjectAnalyzer}
+defmodule ScaffoldSuiBasedOnAIWeb.DataPanelLive do
+  use ScaffoldSuiBasedOnAIWeb, :live_view
+  alias ScaffoldSuiBasedOnAI.{App, ProjectAnalyzer}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -61,9 +61,9 @@ defmodule ScaffoldSuiBasedOnAiWeb.DataPanelLive do
             <a href="https://github.com/lingxiyang" target="_blank" style="color:blue">lingxiyang</a>
 
           <br>
-          <b>GRANTS: Aptos Official Grant R1</b>
+          <b>GRANTS: Sui Official Grant R1</b>
           <br>
-          <b>PRIZES: </b> <a href="https://dorahacks.io/zh/aptos/1/top" target="_blank" style="color:blue"> Dorahacks Aptos Grant R1 </a>
+          <b>PRIZES: </b> <a href="https://dorahacks.io/zh/Sui/1/top" target="_blank" style="color:blue"> Dorahacks Sui Grant R1 </a>
         </.card_content>
       </.card>
 
@@ -89,7 +89,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.DataPanelLive do
             <a href="https://github.com/web3olalala" target="_blank" style="color:blue">web3olalala</a>
             <a href="https://github.com/zven21" target="_blank" style="color:blue">zven21</a>
           <br>
-          <b>PRIZES: </b> <a href="https://dorahacks.io/zh/aptos/round-2/top" target="_blank" style="color:blue"> Dorahacks Aptos Grant R2 </a>
+          <b>PRIZES: </b> <a href="https://dorahacks.io/zh/Sui/round-2/top" target="_blank" style="color:blue"> Dorahacks Sui Grant R2 </a>
           <br>
           </.card_content>
       </.card>  

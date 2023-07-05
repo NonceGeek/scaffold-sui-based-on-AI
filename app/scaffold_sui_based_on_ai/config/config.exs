@@ -8,17 +8,25 @@
 import Config
 
 config :scaffold_sui_based_on_ai,
-  ecto_repos: [DAOSystemBasedOnGithub.Repo]
+  ecto_repos: [ScaffoldSuiBasedOnAI.Repo]
 
 # Configures the endpoint
-config :scaffold_sui_based_on_ai, ScaffoldSuiBasedOnAiWeb.Endpoint,
+config :scaffold_sui_based_on_ai, ScaffoldSuiBasedOnAIWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
-    formats: [html: ScaffoldSuiBasedOnAiWeb.ErrorHTML, json: ScaffoldSuiBasedOnAiWeb.ErrorJSON],
+    formats: [html: ScaffoldSuiBasedOnAIWeb.ErrorHTML, json: ScaffoldSuiBasedOnAIWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: DAOSystemBasedOnGithub.PubSub,
+  pubsub_server: ScaffoldSuiBasedOnAI.PubSub,
   live_view: [signing_salt: "8Hv+cWMw"]
+
+config :openai,
+  # find it at https://platform.openai.com/account/api-keys
+  api_key: System.get_env("OPENAI_SECRET"),
+  # # find it at https://platform.openai.com/account/org-settings under "Organization ID"
+  # organization_key: "your-organization-key",
+  # optional, passed to [HTTPoison.Request](https://hexdocs.pm/httpoison/HTTPoison.Request.html) options
+  http_options: [recv_timeout: 30_000]
 
 # Configures the mailer
 #
@@ -27,7 +35,7 @@ config :scaffold_sui_based_on_ai, ScaffoldSuiBasedOnAiWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :scaffold_sui_based_on_ai, DAOSystemBasedOnGithub.Mailer, adapter: Swoosh.Adapters.Local
+config :scaffold_sui_based_on_ai, ScaffoldSuiBasedOnAI.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -61,7 +69,7 @@ config :phoenix, :json_library, Jason
 
 config :petal_components,
        :error_translator_function,
-       {ScaffoldSuiBasedOnAiWeb.CoreComponents, :translate_error}
+       {ScaffoldSuiBasedOnAIWeb.CoreComponents, :translate_error}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

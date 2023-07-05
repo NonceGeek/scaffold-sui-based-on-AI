@@ -1,11 +1,11 @@
-defmodule ScaffoldSuiBasedOnAiWeb.Router do
-  use ScaffoldSuiBasedOnAiWeb, :router
+defmodule ScaffoldSuiBasedOnAIWeb.Router do
+  use ScaffoldSuiBasedOnAIWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {ScaffoldSuiBasedOnAiWeb.Layouts, :root}
+    plug :put_root_layout, {ScaffoldSuiBasedOnAIWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,16 +14,16 @@ defmodule ScaffoldSuiBasedOnAiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ScaffoldSuiBasedOnAiWeb do
+  scope "/", ScaffoldSuiBasedOnAIWeb do
     pipe_through :browser
 
     live "/", PageLive, :index
-    live "/dapp", DAppLive, :index
+    live "/submit_proposal", ProposalLive, :index
     get "/test", PageController, :home
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ScaffoldSuiBasedOnAiWeb do
+  # scope "/api", ScaffoldSuiBasedOnAIWeb do
   #   pipe_through :api
   # end
 
@@ -39,7 +39,7 @@ defmodule ScaffoldSuiBasedOnAiWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: ScaffoldSuiBasedOnAiWeb.Telemetry
+      live_dashboard "/dashboard", metrics: ScaffoldSuiBasedOnAIWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end

@@ -1,4 +1,4 @@
-defmodule DAOSystemBasedOnGithub.GithubLinker do
+defmodule ScaffoldSuiBasedOnAI.GithubLinker do
     alias Graphvix.Graph
 
     

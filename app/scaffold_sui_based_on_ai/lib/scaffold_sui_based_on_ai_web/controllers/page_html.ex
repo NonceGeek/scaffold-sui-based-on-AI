@@ -1,5 +1,5 @@
-defmodule ScaffoldSuiBasedOnAiWeb.PageHTML do
-  use ScaffoldSuiBasedOnAiWeb, :html
+defmodule ScaffoldSuiBasedOnAIWeb.PageHTML do
+  use ScaffoldSuiBasedOnAIWeb, :html
 
   embed_templates "page_html/*"
 end

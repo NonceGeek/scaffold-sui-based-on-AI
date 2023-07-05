@@ -1,5 +1,5 @@
-defmodule ScaffoldSuiBasedOnAiWeb.Layouts do
-  use ScaffoldSuiBasedOnAiWeb, :html
+defmodule ScaffoldSuiBasedOnAIWeb.Layouts do
+  use ScaffoldSuiBasedOnAIWeb, :html
 
   embed_templates "layouts/*"
 end

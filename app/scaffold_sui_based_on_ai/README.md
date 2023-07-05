@@ -30,6 +30,6 @@ Petal Pro currently comes with a generator to build CRUD interfaces with Petal C
 
 ## Renaming your project
 
-Run `mix rename DAOSystemBasedOnGithub YourNewName` to rename your project. You can then remove `{:rename_project, "~> 0.1.0", only: :dev}` from your `mix.exs` file.
+Run `mix rename ScaffoldSuiBasedOnAI YourNewName` to rename your project. You can then remove `{:rename_project, "~> 0.1.0", only: :dev}` from your `mix.exs` file.
 
 

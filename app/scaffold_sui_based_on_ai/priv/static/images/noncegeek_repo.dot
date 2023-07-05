@@ -35,7 +35,7 @@ digraph NonceGeekRepoTree {
       label="DID: 0x2d...ed",
       shape="polygon",
       sides="4", 
-      URL="https://explorer.aptoslabs.com/account/0x2df41622c0c1baabaa73b2c24360d205e23e803959ebbcb0e5b80462165893ed?network=mainnet" 
+      URL="https://explorer.Suilabs.com/account/0x2df41622c0c1baabaa73b2c24360d205e23e803959ebbcb0e5b80462165893ed?network=mainnet" 
       target="_blank"
   ]
   
@@ -64,7 +64,7 @@ digraph NonceGeekRepoTree {
       label="DID: 0x06...ed",
       shape="polygon",
       sides="4", 
-      URL="https://explorer.aptoslabs.com/account/0x06a19c3df50ea7e7b8e686246db5c4d98affa4aa0de05285688a90342751eeed" 
+      URL="https://explorer.Suilabs.com/account/0x06a19c3df50ea7e7b8e686246db5c4d98affa4aa0de05285688a90342751eeed" 
       target="_blank"
   ]
   
@@ -107,7 +107,7 @@ digraph NonceGeekRepoTree {
       label="Repo",
       shape="polygon",
       sides="4", 
-      URL="https://github.com/NonceGeek/web3_aptos_ex" 
+      URL="https://github.com/NonceGeek/web3_Sui_ex" 
       target="_blank"
   ]
   
@@ -115,7 +115,7 @@ digraph NonceGeekRepoTree {
       label="DID: 0x1e...02",
       shape="polygon",
       sides="4", 
-      URL="https://explorer.aptoslabs.com/account/0x1e87fd50b0e297f5c8c05ee0e8516c7cdce991c91c9ce6817c65fcf7bd982602" 
+      URL="https://explorer.Suilabs.com/account/0x1e87fd50b0e297f5c8c05ee0e8516c7cdce991c91c9ce6817c65fcf7bd982602" 
       target="_blank"
   ]
   
@@ -123,7 +123,7 @@ digraph NonceGeekRepoTree {
       label="Contributors",
       shape="polygon",
       sides="4", 
-      URL="https://github.com/NonceGeek/web3_aptos_ex#contributors" 
+      URL="https://github.com/NonceGeek/web3_Sui_ex#contributors" 
       target="_blank"
   ]
 
@@ -131,7 +131,7 @@ digraph NonceGeekRepoTree {
       label="Money History",
       shape="polygon",
       sides="4", 
-      URL="https://github.com/NonceGeek/web3_aptos_ex#money-history" 
+      URL="https://github.com/NonceGeek/web3_Sui_ex#money-history" 
       target="_blank"
   ]
   
@@ -139,7 +139,7 @@ digraph NonceGeekRepoTree {
       label="Distributed Rules",
       shape="polygon",
       sides="4", 
-      URL="https://github.com/NonceGeek/web3_aptos_ex#distributed-rules" 
+      URL="https://github.com/NonceGeek/web3_Sui_ex#distributed-rules" 
       target="_blank"
   ]
   
@@ -150,7 +150,7 @@ digraph NonceGeekRepoTree {
       cluster_3_repo;
       cluster_3_distributed_rules;
       cluster_3_movedid;
-      label = "Web3 Aptos Ex";
+      label = "Web3 Sui Ex";
       color=blue
   }
   
@@ -190,7 +190,7 @@ digraph NonceGeekRepoTree {
       label="DID: 0x82...55",
       shape="polygon",
       sides="4", 
-      URL="https://explorer.aptoslabs.com/account/0x82b219e76ca10cbcc6a66a547c43a8c72531fb4785548db153f02f552dbf7a55?network=mainnet" 
+      URL="https://explorer.Suilabs.com/account/0x82b219e76ca10cbcc6a66a547c43a8c72531fb4785548db153f02f552dbf7a55?network=mainnet" 
       target="_blank"
   ]
   

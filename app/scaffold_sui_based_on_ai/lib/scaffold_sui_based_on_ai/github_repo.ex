@@ -1,4 +1,4 @@
-defmodule DAOSystemBasedOnGithub.GithubRepo do
+defmodule ScaffoldSuiBasedOnAI.GithubRepo do
     alias __MODULE__, as: GithubRepo
 
     defstruct [
