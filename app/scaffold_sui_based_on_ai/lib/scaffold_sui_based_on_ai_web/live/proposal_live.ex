@@ -26,7 +26,7 @@ defmodule ScaffoldSuiBasedOnAIWeb.ProposalLive do
                 <br>
                 <.text_input placeholder="content"/>
                 <br>
-                <a target="_blank" href="https://explorer.Suilabs.com/account/0x8f86da0052e425b0e391a4befaab137aa29d18201b4392deade879aa264383be/modules/run/governancer/get_proposal?network=testnet">
+                <a target="_blank" href="https://suiexplorer.com/object/0x6f4fd904cd0f377e4ced44bbcd0146737a04f5e8d0b734cc160ffd81443d1cd5?network=testnet">
                     <center><.button color="primary" label="Submit the Proposal⏎" variant="outline" /></center>
                 </a>
             </.container>
