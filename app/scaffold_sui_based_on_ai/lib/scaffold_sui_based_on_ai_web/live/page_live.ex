@@ -4,14 +4,14 @@ defmodule ScaffoldSuiBasedOnAIWeb.PageLive do
   alias ScaffoldSuiBasedOnAI.ExChatServiceInteractor
   use ScaffoldSuiBasedOnAIWeb, :live_view
   
-  @embedbase_id "Sui-smart-contracts-fragment-by-structure"
+  @embedbase_id "sui-smart-contracts-fragment-by-structure"
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
       form: to_form(%{}, as: :f),
       question_now: "What is Sui?",
-      question_now_2: "Give me the examples about the Struct?",
+      question_now_2: "Give me the examples about the Object?",
       question_now_3: "Give me the examples about the Function?",
       question_now_4: "Give me the examples about the Event?",
       question_now_5: "Give me the examples about the Spec?"
@@ -19,33 +19,9 @@ defmodule ScaffoldSuiBasedOnAIWeb.PageLive do
   end
 
   @impl true
-  def handle_params(%{"page" => num, "question" => "intro_apt_obj_model"}, _uri, socket) do
+  def handle_params(%{"page" => num, "question" => "intro_sui_obj_model"}, _uri, socket) do
     answer = """
-# Object
-
-The [Object model](https://github.com/Sui-labs/Sui-core/blob/main/Sui-move/framework/Sui-framework/sources/object.move) allows Move to represent a complex type as a set of resources stored within a single address and offers a rich capability model that allows for fine-grained resource control and ownership management.
-
-In the object model, an NFT or token can place common token data within a Token resource, object data within an ObjectCore resource, and then specialize into additional resources as necessary. For example, a Player object could define a player within a game and be an NFT at the same time. The ObjectCore itself stores both the address of the current owner and the appropriate data for creating event streams.
-
-## [Comparison with the account resources model](https://Sui.dev/standards/Sui-object#comparison-with-the-account-resources-model)
-
-The existing Sui data model emphasizes the use of the store ability within Move. Store allows for a struct to exist within any struct that is stored on-chain. As a result, data can live anywhere within any struct and at any address. While this provides great flexibility it has many limitations:
-
-1. Data is not be guaranteed to be accessible, for example, it can be placed within a user-defined resource that may violate expectations for that data, e.g., a creator attempting to burn an NFT put into a user-defined store. This can be confusing to both the users and creators of this data.
-2. Data of differing types can be stored to a single data structure (e.g., map, vector) via `any`, but for complex data types `any` incurs additional costs within Move as each access requires deserialization. It also can lead to confusion if API developers expect that a specific any field changes the type it represents.
-3. While resource accounts allow for greater autonomy of data, they do so inefficiently for objects and do not take advantage of resource groups.
-4. Data cannot be recursively composable, because Move currently prohibits recursive data structures. Furthermore, experience suggests that true recursive data structures can lead to security vulnerabilities.
-5. Existing data cannot be easily referenced from entry functions, for example, supporting string validation requires many lines of code. Attempting to make tables directly becomes impractical as keys can be composed of many types, thus specializing to support within entry functions becomes complex.
-6. Events cannot be emitted from data but from an account that may not be associated with the data.
-7. Transferring logic is limited to the APIs provided in the respective modules and generally requires loading resources on both the sender and receiver adding unnecessary cost overheads.
-
-> 💡Object is a core primitive in Sui Move and created via the object module at 0x1::object.
-
-Reference: 
-
-> Code: https://github.com/Sui-labs/Sui-core/blob/main/Sui-move/framework/Sui-framework/sources/object.move
->
-> Document: https://Sui.dev/standards/#object
+Sui Object Model, balabala...
 """
 
     {
@@ -61,50 +37,7 @@ Reference:
   def handle_params(%{"page" => num, "question" => "Sui_design_token_model"}, _uri, socket) do
 
   answer = """
-## [Token standard comparison](https://Sui.dev/guides/nfts/Sui-token-comparison/#token-standard-comparison)
-
-In Ethereum or even the whole blockchain world, the Fungible Token (FT) was initially introduced by [EIP-20](https://eips.ethereum.org/EIPS/eip-20), and Non-Fungible Token (NFT) was defined in [EIP-721](https://eips.ethereum.org/EIPS/eip-721). Later, [EIP-1155](https://eips.ethereum.org/EIPS/eip-1155) was proposed to combine FT and NFT or even Semi-Fungible Token (SFT) into the one standard.
-
-One deficiency of the Ethereum token contract is each token having to deploy individual contract code onto a contract account to distinguish it from other tokens even if it simply differs by name. Solana account model enables another pattern where code can be reused so that one generic program operates on various data. To create a new token, you could create an account that can mint tokens and more accounts that can receive them. The mint account itself uniquely determines the token type instead of contract account, and these are all passed as arguments to the one contract deployed to some executable account.
-
-The Sui token standard shares some similarities with Solana, especially how it covers FT, NFT and SFT in one standard and also has a similar generic token contract, which also implicitly defines token standard. Basically, instead of deploying a new ERC20 smart contract for each new token, all you need to do is call a function in the contract with necessary arguments. Depending on what function you call, the token contract will mint/transfer/burn/... tokens.
-
-### [Token identification](https://Sui.dev/guides/nfts/Sui-token-comparison/#token-identification)
-
-Sui identifies a token by its `TokenId` that includes `TokenDataId` and `property_version`. The `property_version` shares the same concept with *Edition Account* in Solana, but there is no explicit counterpart in Ethereum as it is not required in any token standard interface.
-
-`TokenDataId` is a globally unique identifier of token group sharing all the metadata except for `property_version`, including token creator address, collection name and token name. In Ethereum, the same concept is implemented by deploying a token contract under a unique address so an FT type or a collection of NFTs is identified by different contract addresses. In Solana, the similar concept for token identifier is implemented as mint account, each of which will represent one token type. In Sui, a creator account can have multiple token types created by giving different collections and token names.
-
-### [Token categorization](https://Sui.dev/guides/nfts/Sui-token-comparison/#token-categorization)
-
-it is critical to understand, in Sui, how to categorize different tokens to expect different sets of features:
-
-- `Fungible Token`: Each FT has one unique `TokenId`, which means tokens sharing the same creator, collection, name and property version are fungible.
-- `Non-Fungible Token`: NFTs always have different `TokenId`s, but it is noted that NFTs belonging to the same collection (by nature also the same creator) will share the same `creator` and `collection` fields in their `TokenDataId`s.
-- `Semi-Fungible Token`: The crypto communities lack a common definition for SFT. The only consensus is SFTs are comparatively new types of tokens that combine the properties of NFTs and FTs. Usually this is realized via the customized logic based on different customized properties.
-
-It's worth noting that Solana has an `Edition` concept that represents an NFT that was copied from a Master Edition NFT. This can apply to use cases such as tickets in that they are almost exactly the same except for some properties, for example, serial numbers or seats for tickets. They could be implemented in Sui by bumping the token `property_version` and mutating corresponding fields in `token_properties`. In a nutshell, `Edition` is to Solana token is what `property_version` is to Sui token; but there is no similar concept in Ethereum token standard.
-
-### Token metadata[](https://Sui.dev/guides/nfts/Sui-token-comparison/#token-metadata)
-
-Sui token has metadata defined in `TokenData` with the multiple fields that describe widely acknowledged property data that needs to be understood by dapps. To name a few fields:
-
-- `name`: The name of the token. It must be unique within a collection.
-- `description`: The description of the token.
-- `uri`: A URL pointer to off-chain for more information about the token. The asset could be media such as an image or video or more metadata in a JSON file.
-- `supply`: The total number of units of this token.
-- `token_properties`: a map-like structure containing optional or customized metadata not covered by existing fields.
-
-In Ethereum, only a small portion of such properties are defined as methods, such as `name()`, `symbol()`, `decimals()`, `totalSupply()` of ERC-20; or `name()` and `symbol()` and `tokenURI()` of the optional metadata extension for ERC-721; ERC-1155 also has a similar method `uri()` in its own optional metadata extension. Therefore, for tokens on Ethereum, that token metadata is not standardized so that dapps have to take special treatment case by case, which incurs unnecessary overhead for developers and users.
-
-In Solana, the Token Metadata program offers a Metadata Account defining numerous metadata fields associated with a token as well, including `collection` which is defined in `TokenDataId` in Sui. Unfortunately, it fails to provide on-chain property with mutability configuration, which could improve the usability of the token standard by enabling more innovative smart contract logic based on on-chain properties. SFT is a good example of this. Instead, the `Token Standard` field introduced to Token Metadata v1.1.0 only provides `attributes` as a container to hold customized properties. However, it is neither mutable nor on-chain, as an off-chain JSON standard.
-
-Reference: 
-
-> Code: https://github.com/Sui-labs/Sui-core/tree/main/Sui-move/framework/Sui-token/sources
->
-> Document: https://Sui.dev/guides/nfts/Sui-token-comparison/#token-standard-comparison
-
+SUi Token Model, balabala...
 """
     {
       :noreply, 
@@ -118,11 +51,7 @@ Reference:
   @impl true
   def handle_params(%{"page" => num, "question" => "use_Sui_cli"}, _uri, socket) do
     answer = """
-The `Sui` tool is a command line interface (CLI) for developing on the Sui blockchain, debugging, and for node operations. This document describes how to use the `Sui` CLI tool. To download or build the CLI, follow [Install Sui CLI](https://Sui.dev/tools/install-cli/).
-
-Reference:
-
-> Document: https://Sui.dev/tools/Sui-cli-tool/use-Sui-cli
+Sui CLI, balabala...
 """
     {
       :noreply, 
@@ -248,14 +177,12 @@ Reference:
     Enum.map(similarities, fn elem -> 
       url = 
         case elem.metadata.file_name do
-          "hello_blockchain" ->
-            "https://github.com/Sui-labs/Sui-core/blob/main/Sui-move/move-examples/hello_blockchain/sources/hello_blockchain.move"
-          "hello_prover" ->
-            "https://github.com/Sui-labs/Sui-core/blob/main/Sui-move/move-examples/hello_prover/sources/prove.move"
-          "common_account" ->
-            "https://github.com/Sui-labs/Sui-core/blob/main/Sui-move/move-examples/common_account/sources/common_account.move"
-          "iterable_table" ->
-            "https://github.com/Sui-labs/Sui-core/blob/main/Sui-move/move-examples/data_structures/sources/iterable_table.move"
+          "move_tutorial" ->
+            "https://github.com/MystenLabs/sui/blob/main/sui_programmability/examples/move_tutorial/sources/my_module.move"
+          "sandwich" ->
+            "https://github.com/MystenLabs/sui/blob/main/sui_programmability/examples/basics/sources/sandwich.move"
+          _ ->
+            "https://github.com/MystenLabs/sui/blob/main/sui_programmability/examples"
         end
       Map.put(elem, :url, url)
     end)
@@ -302,7 +229,7 @@ Reference:
             <br>
             <.p>Recommend Questions:</.p>
             <br>
-            <a href="?page=1&question=intro_apt_obj_model">
+            <a href="?page=1&question=intro_sui_obj_model">
               <div class="flex items-start">
                   <.alert color="info" label="Introduce the Sui Object Model?" />
               </div>
@@ -318,7 +245,7 @@ Reference:
               </div>
             </a>
           <%= 2 -> %>
-            <.text_input form={@form} field={:question_input_2} placeholder="Give me the examples about the Struct?" value={assigns[:question_now_2]}/>
+            <.text_input form={@form} field={:question_input_2} placeholder="Give me the examples about the Object?" value={assigns[:question_now_2]}/>
             <br>
             <center><.button color="primary" label="Get Smart Answer ⏎" variant="outline" /></center>
             <br>
@@ -371,7 +298,7 @@ Reference:
         <center>
         <span>
             <.link href={~p"/?page=1"} style="color:blue">Step 0x01 - Basic Concept Study</.link> |
-            <.link href={~p"/?page=2"} style="color:blue">Step 0x02 - Buidl the Structs</.link>
+            <.link href={~p"/?page=2"} style="color:blue">Step 0x02 - Buidl the Objects</.link>
             <br>
             <.link href={~p"/?page=3"} style="color:blue">Step 0x03 - Buidl the Functions</.link> | 
             <.link href={~p"/?page=4"} style="color:blue">Step 0x04 - Buidl the Events</.link> | 
