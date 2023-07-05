@@ -1,4 +1,17 @@
 # scaffold-sui-based-on-AI
+
+MVP Deploy:
+
+> TODO
+
+Contract on the Testnet:
+
+https://suiexplorer.com/object/0x6f4fd904cd0f377e4ced44bbcd0146737a04f5e8d0b734cc160ffd81443d1cd5?network=testnet
+
+Public Dataset for Sui Smart Contract:
+
+> https://app.embedbase.xyz/datasets/faa9934d-36a5-4f8c-9e33-36f437004cbb
+
 AI-based Sui smart contract and dApp scaffolding, empowering developers to rapidly develop and learn.
 
 ## 0x01 Short Introduction
@@ -18,7 +31,7 @@ OUR OPNION: `AI ≠ Programmer, AI = Programmer’s Copilot`.
 ├── README.md
 ├── app
 │   └── backend_py
-|   └── frontend
+|   └── scaffold_sui_based_on_ai
 ├── data_resources
 │   └── README.md
 └── governancer
