@@ -1,0 +1,20 @@
+{
+    "object": [
+        "struct Sword has key, store {\n    id: UID,\n    magic: u64,\n    strength: u64,\n}\n",
+        "struct Forge has key {\n    id: UID,\n    swords_created: u64,\n}"
+    ],
+    "event": [],
+    "const": [],
+    "function": [
+        "fun init(ctx: &mut TxContext) {\n    let admin = Forge {\n        id: object::new(ctx),\n        swords_created: 0,\n    };\n    transfer::transfer(admin, tx_context::sender(ctx));\n}",
+        "public fun magic(self: &Sword): u64 {\n    self.magic\n}",
+        "public fun strength(self: &Sword): u64 {\n    self.strength\n}",
+        "public fun swords_created(self: &Forge): u64 {\n    self.swords_created\n}",
+        "public entry fun sword_create(forge: &mut Forge, magic: u64, strength: u64, recipient: address, ctx: &mut TxContext) {\n    let sword = Sword {\n        id: object::new(ctx),\n        magic: magic,\n        strength: strength,\n    };\n    transfer::public_transfer(sword, recipient);\n    forge.swords_created = forge.swords_created + 1;\n}"
+    ],
+    "test": [
+        "[test]\npublic fun test_module_init() {\n    use sui::test_scenario;\n    let admin = @0xBABE;\n    let scenario_val = test_scenario::begin(admin);\n    let scenario = &mut scenario_val;\n    {\n        init(test_scenario::ctx(scenario));\n    };\n    test_scenario::next_tx(scenario, admin);\n    {\n        let forge = test_scenario::take_from_sender<Forge>(scenario);\n        assert!(swords_created(&forge) == 0, 1);\n        test_scenario::return_to_sender(scenario, forge);\n    };\n    test_scenario::end(scenario_val);\n}",
+        "[test]\nfun test_sword_transactions() {\n    use sui::test_scenario;\n    let admin = @0xBABE;\n    let initial_owner = @0xCAFE;\n    let final_owner = @0xFACE;\n    let scenario_val = test_scenario::begin(admin);\n    let scenario = &mut scenario_val;\n    {\n        init(test_scenario::ctx(scenario));\n    };\n    test_scenario::next_tx(scenario, admin);\n    {\n        let forge = test_scenario::take_from_sender<Forge>(scenario);\n        sword_create(&mut forge, 42, 7, initial_owner, test_scenario::ctx(scenario));\n        test_scenario::return_to_sender(scenario, forge)\n    };\n    test_scenario::next_tx(scenario, initial_owner);\n    {\n        let sword = test_scenario::take_from_sender<Sword>(scenario);\n        transfer::public_transfer(sword, final_owner);\n    };\n    test_scenario::next_tx(scenario, final_owner);\n    {\n        let sword = test_scenario::take_from_sender<Sword>(scenario);\n        assert!(magic(&sword) == 42 && strength(&sword) == 7, 1);\n        test_scenario::return_to_sender(scenario, sword)\n    };\n    test_scenario::end(scenario_val);\n}",
+        "[test]\npublic fun test_sword_create() {\n    let ctx = tx_context::dummy();\n    let sword = Sword {\n        id: object::new(&mut ctx),\n        magic: 42,\n        strength: 7,\n    };\n    assert!(magic(&sword) == 42 && strength(&sword) == 7, 1);\n    let dummy_address = @0xCAFE;\n    transfer::public_transfer(sword, dummy_address);\n}"
+    ]
+}

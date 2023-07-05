@@ -28,3 +28,45 @@ gpt: Sui相对于传统区块链的主要优势包括：
 4. 更好的开发者体验：Sui提供了更好的开发者体验，包括更高效的本地读操作、更简单的智能合约编写、更低的交易费用和更好的用户体验。此外，Sui的气体机制可以激励验证器优化其硬件和操作，从而提高其效率并获得奖励。
 user question: 如何快速学习  move 语言，请推荐一些网站. waiting...
 gpt: 您可以参考 [Move 官方文档](https://developers.diem.com/docs/move/overview) 或者 [Move 教程](https://github.com/move-language/move/tree/main/language/documentation/tutorial) 进行学习。另外，您也可以加入 [Move 官方社区](https://community.diem.com/c/move/13) 与其他开发者交流学习。
+user question: 如何在 mac 电脑上通过命令行安装 sui. waiting...
+user question: sui 比起其他区块链的优势是什么. waiting...
+user question: 如何快速学习  move 语言，请推荐一些网站. waiting...
+user question: 如何在 mac 电脑上通过命令行安装 sui. waiting...
+gpt: 在Mac电脑上通过命令行安装Sui，您可以按照以下步骤进行操作：
+
+1. 首先，确保您已经安装了Rust和Cargo。您可以使用以下命令安装Rust和Cargo：
+```shell
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+2. 安装Xcode命令行工具。您可以使用以下命令安装Xcode命令行工具：
+```shell
+xcode-select --install
+```
+3. 接下来，使用以下命令安装Sui二进制文件：
+```shell
+cargo install --locked --git https://github.com/MystenLabs/sui.git --branch devnet sui
+```
+这个过程可能需要一些时间，请耐心等待安装完成。
+4. 安装完成后，您可以通过输入`sui`命令来确认Sui是否安装成功。您将看到有关已安装的Sui版本的消息以及使用Sui命令的帮助信息。
+
+希望这可以帮助您在Mac电脑上通过命令行安装Sui。如果您有任何其他问题，请随时提问。
+user question: sui 比起其他区块链的优势是什么. waiting...
+gpt: Sui相对于其他区块链的主要优势有以下几点：
+
+1. 高性能：Sui具有前所未有的高性能。它通过对交易进行因果排序，可以大规模并行执行多个交易，从而降低延迟并充分利用CPU核心。与传统区块链不同，Sui将复杂性推向边缘，使验证者之间的交互最小化，代码更简单、更高效。此外，Sui可以利用更多的机器来提高性能，而传统区块链通常只能在单台机器上运行。
+
+2. 故障下的性能：Sui采用无领导协议处理简单交易，因此故障的验证者不会对性能产生显著影响。对于涉及共享对象的交易，Sui采用先进的共识协议，只会略微降低性能。相比之下，大多数基于领导者的区块链在遇到单个验证者崩溃时，吞吐量下降、延迟增加。
+
+3. 安全性假设：与许多传统区块链不同，Sui在网络上没有强同步假设。这意味着即使在网络条件恶劣、网络分裂/分区或针对验证者的强大DoS攻击下，Sui仍然保持其安全性。而同步区块链（大多数基于工作量证明的区块链）遭受持续的网络攻击可能导致资源的双重消费和死锁。
+
+4. 高效的本地读操作：Sui的读取过程与其他区块链有很大的区别。对于只关注少量对象及其历史记录的用户，可以以低粒度和低延迟进行认证读取。Sui从创世开始创建了一个狭窄的对象家族树，只读取与交易发送者相关的对象。需要全局视图的用户（例如系统审计）可以利用检查点来提高性能。而传统区块链需要对家族进行完全排序，然后查询所需的精确信息，磁盘I/O可能成为性能瓶颈。
+
+5. 更简便的开发者体验：Sui为开发者提供了更好的开发体验，使其能够更轻松地构建和部署智能合约。此外，Sui的燃料机制还激励验证者优化其硬件和运营，投资于提高效率的验证者能够提供更低的燃料价格，并获得奖励加成，从而改善最终用户的体验。
+user question: 如何快速学习  move 语言，请推荐一些网站. waiting...
+gpt: 您可以参考以下网站来快速学习Move语言：
+
+1. [Move官方文档](https://developers.diem.com/docs/move/overview)
+2. [Move教程](https://github.com/move-language/move/tree/main/language/documentation/tutorial)
+3. [Move语言规范](https://github.com/libra/libra/tree/main/language/move-lang)
+4. [Move语言白皮书](https://developers.diem.com/docs/move-paper)
+5. [Move语言GitHub仓库](https://github.com/move-language/move)

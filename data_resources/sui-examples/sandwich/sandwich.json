@@ -1,0 +1,28 @@
+{
+    "object": [
+        "struct Ham has key {\n    id: UID\n}",
+        "struct Bread has key {\n    id: UID\n}",
+        "struct Sandwich has key {\n    id: UID,\n}",
+        "struct GroceryOwnerCapability has key {\n    id: UID\n}",
+        "struct Grocery has key {\n    id: UID,\n    profits: Balance<SUI>\n}"
+    ],
+    "event": [],
+    "const": [
+        "const HAM_PRICE: u64 = 10;",
+        "const BREAD_PRICE: u64 = 2;",
+        "const EInsufficientFunds: u64 = 0;",
+        "const ENoProfits: u64 = 1;"
+    ],
+    "function": [
+        "fun init(ctx: &mut TxContext) {\n    transfer::share_object(Grocery {\n        id: object::new(ctx),\n        profits: balance::zero<SUI>()\n    });\n\n    transfer::transfer(GroceryOwnerCapability {\n        id: object::new(ctx)\n    }, tx_context::sender(ctx));\n}",
+        "public entry fun buy_ham(\n    grocery: &mut Grocery,\n    c: Coin<SUI>,\n    ctx: &mut TxContext\n) {\n    let b = coin::into_balance(c);\n    assert!(balance::value(&b) >= HAM_PRICE, EInsufficientFunds);\n    balance::join(&mut grocery.profits, b);\n    transfer::transfer(Ham { id: object::new(ctx) }, tx_context::sender(ctx))\n}",
+        "public entry fun buy_bread(\n    grocery: &mut Grocery,\n    c: Coin<SUI>,\n    ctx: &mut TxContext\n) {\n    let b = coin::into_balance(c);\n    assert!(balance::value(&b) >= BREAD_PRICE, EInsufficientFunds);\n    balance::join(&mut grocery.profits, b);\n    transfer::transfer(Bread { id: object::new(ctx) }, tx_context::sender(ctx))\n}",
+        "public entry fun make_sandwich(\n    ham: Ham, bread: Bread, ctx: &mut TxContext\n) {\n    let Ham { id: ham_id } = ham;\n    let Bread { id: bread_id } = bread;\n    object::delete(ham_id);\n    object::delete(bread_id);\n    transfer::transfer(Sandwich { id: object::new(ctx) }, tx_context::sender(ctx))\n}",
+        "public fun profits(grocery: &Grocery): u64 {\n    balance::value(&grocery.profits)\n}",
+        "public entry fun collect_profits(_cap: &GroceryOwnerCapability, grocery: &mut Grocery, ctx: &mut TxContext) {\n    let amount = balance::value(&grocery.profits);\n\n    assert!(amount > 0, ENoProfits);\n\n    // Take a transferable `Coin` from a `Balance`\n    let coin = coin::take(&mut grocery.profits, amount, ctx);\n\n    transfer::transfer(coin, tx_context::sender(ctx));\n}",
+        "public fun init_for_testing(ctx: &mut TxContext) {\n    init(ctx);\n}"
+    ],
+    "test": [
+        "[test]\nfun test_make_sandwich() {\n    let owner = @0x1;\n    let the_guy = @0x2;\n\n    let scenario_val = test_scenario::begin(owner);\n    let scenario = &mut scenario_val;\n    test_scenario::next_tx(scenario, owner);\n    {\n        sandwich::init_for_testing(test_scenario::ctx(scenario));\n    };\n\n    test_scenario::next_tx(scenario, the_guy);\n    {\n        let grocery_val = test_scenario::take_shared<Grocery>(scenario);\n        let grocery = &mut grocery_val;\n        let ctx = test_scenario::ctx(scenario);\n\n        sandwich::buy_ham(\n            grocery,\n            coin::mint_for_testing<SUI>(10, ctx),\n            ctx\n        );\n\n        sandwich::buy_bread(\n            grocery,\n            coin::mint_for_testing<SUI>(2, ctx),\n            ctx\n        );\n\n        test_scenario::return_shared( grocery_val);\n    };\n\n    test_scenario::next_tx(scenario, the_guy);\n    {\n        let ham = test_scenario::take_from_sender<Ham>(scenario);\n        let bread = test_scenario::take_from_sender<Bread>(scenario);\n\n        sandwich::make_sandwich(ham, bread, test_scenario::ctx(scenario));\n    };\n\n    test_scenario::next_tx(scenario, owner);\n    {\n        let grocery_val = test_scenario::take_shared<Grocery>(scenario);\n        let grocery = &mut grocery_val;\n        let capability = test_scenario::take_from_sender<GroceryOwnerCapability>(scenario);\n\n        assert!(sandwich::profits(grocery) == 12, 0);\n        sandwich::collect_profits(&capability, grocery, test_scenario::ctx(scenario));\n        assert!(sandwich::profits(grocery) == 0, 0);\n\n        test_scenario::return_to_sender(scenario, capability);\n        test_scenario::return_shared(grocery_val);\n    };\n    test_scenario::end(scenario_val);\n}"
+    ]
+}
